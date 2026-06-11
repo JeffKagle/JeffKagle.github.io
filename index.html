@@ -1,12 +1,627 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jeff Kagle</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeffrey Kagle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1A1A1A;
+      --white: #FFFFFF;
+      --accent: #3B6EA5;
+      --accent-light: #EDF2F8;
+      --mid: #6B7280;
+      --border: #E5E7EB;
+      --serif: 'DM Serif Display', serif;
+      --sans: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--white);
+      color: var(--black);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--black); }
+    .nav-links a.active::after { width: 100%; background: var(--black); }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 48px; max-width: 900px; margin: 0 auto; }
+    section + section { border-top: 1px solid var(--border); }
+
+    /* ── HERO ── */
+    #home {
+      padding-top: 140px;
+      padding-bottom: 80px;
+      text-align: center;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-greeting {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+
+    .hero-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 36px;
+      display: block;
+      border: 3px solid var(--border);
+      background: var(--accent-light);
+    }
+
+    .hero-photo-placeholder {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      margin: 0 auto 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--border);
+    }
+
+    .hero-photo-placeholder span {
+      font-size: 0.75rem;
+      color: var(--mid);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .hero-bio {
+      max-width: 620px;
+      margin: 0 auto 48px;
+      font-size: 1.05rem;
+      color: var(--mid);
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ── UPDATES ── */
+    .updates-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .updates-list {
+      list-style: none;
+      max-width: 620px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .updates-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: var(--black);
+      text-align: left;
+    }
+
+    .update-date {
+      font-size: 0.75rem;
+      color: var(--mid);
+      font-weight: 500;
+      white-space: nowrap;
+      padding-top: 2px;
+      min-width: 72px;
+    }
+
+    /* ── SECTION HEADINGS ── */
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--mid);
+      margin-bottom: 48px;
+      font-weight: 300;
+    }
+
+    /* ── PORTFOLIO ── */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+
+    .project-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      background: var(--accent-light);
+    }
+
+    .project-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-img-placeholder span {
+      font-size: 0.7rem;
+      color: var(--mid);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .project-body {
+      padding: 20px;
+    }
+
+    .project-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .project-desc {
+      font-size: 0.85rem;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    /* ── PUBLICATIONS ── */
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .pub-item {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      transition: box-shadow 0.2s;
+    }
+
+    .pub-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+
+    .pub-meta { flex: 1; }
+
+    .pub-venue {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .pub-title {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .pub-authors {
+      font-size: 0.82rem;
+      color: var(--mid);
+    }
+
+    .pub-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      padding: 6px 14px;
+      border-radius: 4px;
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .pub-link:hover { background: var(--accent); color: var(--white); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: var(--accent-light);
+    }
+
+    .about-photo-placeholder {
+      width: 200px;
+      height: 200px;
+      border-radius: 8px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+    }
+
+    .about-photo-placeholder span {
+      font-size: 0.7rem;
+      color: var(--mid);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      color: var(--mid);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .about-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .about-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--black);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 4px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .about-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 32px;
+      font-size: 0.8rem;
+      color: var(--mid);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 18px; }
+      section { padding: 72px 20px; }
+      #home { padding-top: 110px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-photo, .about-photo-placeholder { width: 140px; height: 140px; }
+      .pub-item { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #home { animation: none; }
+      .project-card:hover { transform: none; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Jeff Kagle</h1>
-  <p>Welcome to my site.</p>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#home" class="nav-logo">Jeffrey Kagle</a>
+    <ul class="nav-links">
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <h1 class="hero-greeting">Hi, I'm Jeffrey.</h1>
+
+    <!-- Replace src with your actual photo path e.g. src="assets/photo.jpg" -->
+    <!-- <img src="assets/photo.jpg" alt="Jeffrey Kagle" class="hero-photo" /> -->
+    <div class="hero-photo-placeholder">
+      <span>Your photo</span>
+    </div>
+
+    <p class="hero-bio">
+      I'm an M.S. student in Mechanical &amp; Aerospace Engineering at Cornell University,
+      researching underwater acoustics, soft biomimetic robotics, and acoustic metamaterials.
+      I build things that listen — and occasionally things that swim.
+    </p>
+
+    <!-- UPDATES — edit this list as things change -->
+    <p class="updates-label">Current Updates</p>
+    <ul class="updates-list">
+      <li>
+        <span class="update-date">Jun 2026</span>
+        <span>Finishing M.S. thesis on underwater Helmholtz resonator attenuation at Cornell MAE.</span>
+      </li>
+      <li>
+        <span class="update-date">Jun 2026</span>
+        <span>Applying to Ph.D. programs in underwater soft robotics and acoustic mechanics for Fall 2027.</span>
+      </li>
+      <li>
+        <span class="update-date">May 2026</span>
+        <span>Open to research collaborations and summer internship opportunities in acoustic engineering.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <p class="updates-label">Work</p>
+    <h2 class="section-title">Portfolio</h2>
+    <p class="section-subtitle">Projects in acoustics, robotics, and product design.</p>
+
+    <div class="portfolio-grid">
+
+      <!-- PROJECT 1 — duplicate this block to add more -->
+      <div class="project-card">
+        <!-- <img src="assets/project1.jpg" alt="Underwater Helmholtz Resonator" class="project-img" /> -->
+        <div class="project-img-placeholder"><span>Project image</span></div>
+        <div class="project-body">
+          <p class="project-tag">Acoustics</p>
+          <h3 class="project-title">Underwater Helmholtz Resonator</h3>
+          <p class="project-desc">Designed and tested a resonator targeting ~1570 Hz motor noise inside a 67mm OD 3D-printed cylinder for an underwater ROV application.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div class="project-card">
+        <div class="project-img-placeholder"><span>Project image</span></div>
+        <div class="project-body">
+          <p class="project-tag">Product Design</p>
+          <h3 class="project-title">ANCORE U Tiller Extension Joint</h3>
+          <p class="project-desc">Competitive sailing hardware with a three-layer elastomeric architecture — polyurethane body, nylon rope core, and woven polymer mesh sleeve. Patent pending.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div class="project-card">
+        <div class="project-img-placeholder"><span>Project image</span></div>
+        <div class="project-body">
+          <p class="project-tag">Robotics / Electronics</p>
+          <h3 class="project-title">Acoustic Measurement Platform</h3>
+          <p class="project-desc">Arduino/Raspberry Pi Pico-based system for SPL measurement and servo-actuated acoustic testing inside anechoic foam enclosures.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <p class="updates-label">Research</p>
+    <h2 class="section-title">Publications</h2>
+    <p class="section-subtitle">Papers, reports, and technical documents I've contributed to.</p>
+
+    <div class="pub-list">
+
+      <!-- PUBLICATION 1 — replace href with real PDF path e.g. assets/paper1.pdf -->
+      <div class="pub-item">
+        <div class="pub-meta">
+          <p class="pub-venue">Cornell MAE · 2026</p>
+          <h3 class="pub-title">Helmholtz Resonator Attenuation of Submerged Motor Noise</h3>
+          <p class="pub-authors">Jeffrey Kagle</p>
+        </div>
+        <a href="assets/paper1.pdf" class="pub-link" target="_blank">
+          ↓ PDF
+        </a>
+      </div>
+
+      <!-- PUBLICATION 2 -->
+      <div class="pub-item">
+        <div class="pub-meta">
+          <p class="pub-venue">MAE 5630 · Cornell · 2026</p>
+          <h3 class="pub-title">ANCORE U Tiller Extension Joint — Product Design Specification</h3>
+          <p class="pub-authors">Jeffrey Kagle, Robert Bridges, Rene Umeh, Swar Sahgal, Isabela Castillo</p>
+        </div>
+        <a href="assets/paper2.pdf" class="pub-link" target="_blank">
+          ↓ PDF
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="updates-label">Background</p>
+    <h2 class="section-title">About Me</h2>
+    <p class="section-subtitle">A bit more on who I am and what drives my work.</p>
+
+    <div class="about-grid">
+
+      <!-- <img src="assets/photo.jpg" alt="Jeffrey Kagle" class="about-photo" /> -->
+      <div class="about-photo-placeholder"><span>Your photo</span></div>
+
+      <div class="about-text">
+        <p>
+          I'm a graduate student in Mechanical &amp; Aerospace Engineering at Cornell University,
+          where my research sits at the intersection of underwater acoustics, soft robotics,
+          and biomimetic design. I'm particularly drawn to how living systems solve physical
+          problems that engineered ones still struggle with — and how we can listen to that.
+        </p>
+        <p>
+          Before graduate school I studied [your undergrad background here]. Outside of research
+          I spend time sailing, building electronics, and occasionally setting up game servers
+          for friends.
+        </p>
+        <p>
+          I'm currently applying to Ph.D. programs for Fall 2027 and open to research collaborations
+          and internships in acoustic engineering, underwater systems, and soft robotics.
+        </p>
+
+        <!-- Update these hrefs with real links / file paths -->
+        <div class="about-links">
+          <a href="https://linkedin.com/in/jeffreykagle" class="about-link" target="_blank">
+            ↗ LinkedIn
+          </a>
+          <a href="assets/resume.pdf" class="about-link" target="_blank">
+            ↓ Résumé
+          </a>
+          <a href="assets/cover-letter.pdf" class="about-link" target="_blank">
+            ↓ Cover Letter
+          </a>
+          <a href="mailto:your@email.com" class="about-link">
+            ✉ Email
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Jeffrey Kagle · Built with GitHub Pages</p>
+  </footer>
+
+  <script>
+    // Highlight active nav link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle(
+              'active',
+              link.getAttribute('href') === '#' + entry.target.id
+            );
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+  </script>
+
 </body>
 </html>
