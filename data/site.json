@@ -17,6 +17,70 @@
   ],
   "projects": [
     {
+      "id": "inline-3-engine",
+      "title": "TR315-r Inline-3 Motorcycle Engine",
+      "tag": "Mechanical Design",
+      "date": "Dec 2024",
+      "context": "EMAE 360 · Case Western Reserve University · Project Manager",
+      "team": "Nathaniel Berntson, Jeffrey Kagle, Joshua Berman, Josue Cervantes, Sebastian Kennedy, Gregory Burns, Diego A. Acosta-Félix, Alexander Schreiter, Ben Stites, Kenji Miyake",
+      "summary": "Product design specification for the TR315-r, a 1502 cc inline-3 motorcycle engine designed by a 10-person team. I was project manager and led the fluid mechanics and thermodynamics of engine cooling.",
+      "cover": "assets/img/inline-3-engine/cad.jpg",
+      "cover_alt": "CAD model of the TR315-r inline-3 engine",
+      "document": {
+        "label": "Product Design Specification",
+        "file": "assets/docs/inline-3-engine.pdf",
+        "sha256": "93dd495232cb0ea4e5e4c44a04553d53ecf6c6cc8c355c7a8d2bbf68112df1bb"
+      },
+      "extra_documents": [],
+      "portfolio": {
+        "include": true,
+        "overview": "A semester-long design of the TR315-r, a 1502 cc inline-3 engine for cruiser motorcycles, by a 10-person team. As project manager I coordinated the schedule and deliverables, focused on the fluid mechanics and thermodynamics behind engine cooling, and contributed to every section. The final specification covers the engine design, noise and emissions compliance, manufacturing, and a three-year business case.",
+        "metrics": [
+          {
+            "value": "1502 cc",
+            "label": "inline-3, DOHC 12-valve, 10:1 compression"
+          },
+          {
+            "value": "77.83 dB",
+            "label": "at 50 ft at 8000 rpm redline, under the strictest US limit (80 dBA)"
+          },
+          {
+            "value": "97%",
+            "label": "emissions reduction needed at cruise, met with a catalytic converter"
+          },
+          {
+            "value": "14.9%",
+            "label": "projected ROI over the first three years of production"
+          }
+        ],
+        "results": [
+          "Cooling: chose water cooling after finding that air cooling would need an excessive amount of fin area; water cooling takes less space and moves more heat. Set a 120 °C maximum engine surface temperature, well below the ~200 °C at which ABS shrouding begins to melt.",
+          "Noise: computed exhaust sound intensity from exhaust pressure, density, and speed of sound, then applied the inverse-square law. With a muffler (~35 dB reduction) the engine reaches 72.93 dB at 5000 rpm and 77.83 dB at redline, measured 50 ft away — within Washington's 80 dBA limit, the strictest in the US.",
+          "Emissions: initial output needed a 97% reduction at cruise; a 400-cell metallic catalytic converter brings HC + NOx below 0.8 g/km and CO below 6.4 g/km, meeting CARB and EPA limits.",
+          "Final layout: over-square inline-3 (88.9 mm bore, 76.2 mm stroke, ratio 1.1667) with a pent-roof head, port injection, and wet-sump lubrication — 280.87 lb in a 20.32 × 14.50 × 12.75 in envelope.",
+          "Business case: $3,277.17 production cost per engine at 15,000 units a year; a $4,099.95 sale price gives a 23.4% gross margin and 14.9% ROI over three years on a $17.55 million initial investment."
+        ],
+        "figures": [
+          {
+            "src": "assets/img/inline-3-engine/cad.jpg",
+            "caption": "CAD model of the TR315-r inline-3 engine.",
+            "source_page": 10,
+            "wide": true
+          },
+          {
+            "src": "assets/img/inline-3-engine/gantt.png",
+            "caption": "Semester schedule I managed as project manager: deliverables, presentation and submission dates, and the critical path.",
+            "source_page": 8
+          },
+          {
+            "src": "assets/img/inline-3-engine/cash-flow.png",
+            "caption": "Projected annual cash flow and total cash over the first three years of production.",
+            "source_page": 13
+          }
+        ]
+      }
+    },
+    {
       "id": "cuttlefish-hybrid-model",
       "title": "Biological and Robotic Synthesized Cuttlefish Fin Biomechanical Model",
       "tag": "Biomechanics · Theory",
@@ -250,6 +314,12 @@
       "venue": "EMAE 415 Final Paper · Case Western Reserve University · December 2024",
       "authors": "Jeffrey Kagle",
       "file": "assets/docs/cuttlefish-hybrid-model.pdf"
+    },
+    {
+      "title": "Final Product Design Specification: TR315-r Inline-3 Motorcycle Engine",
+      "venue": "EMAE 360 · Case Western Reserve University · December 2024",
+      "authors": "Nathaniel Berntson, Jeffrey Kagle, Joshua Berman, Josue Cervantes, Sebastian Kennedy, Gregory Burns, Diego A. Acosta-Félix, Alexander Schreiter, Ben Stites, Kenji Miyake",
+      "file": "assets/docs/inline-3-engine.pdf"
     }
   ]
 }
