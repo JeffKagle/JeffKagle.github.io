@@ -56,6 +56,28 @@ def rich(s):
 
 # ───────────────────────── validation ─────────────────────────
 
+MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], start=1)}
+
+
+def date_key(p):
+    """Sort key (year, month) from 'sort_date' (YYYY-MM) or the display date ('Dec 2024', 'May 2025', '2026').
+    A year with no month sorts after dated projects of the same year."""
+    raw = str(p.get("sort_date") or p.get("date") or "")
+    m = re.fullmatch(r"(\d{4})-(\d{1,2})", raw.strip())
+    if m:
+        return (int(m.group(1)), int(m.group(2)))
+    m = re.fullmatch(r"(?:([A-Za-z]{3})[a-z]*\.?\s+)?(\d{4})", raw.strip())
+    if not m:
+        return None
+    return (int(m.group(2)), MONTHS.get((m.group(1) or "").lower(), 0))
+
+
+def sorted_projects(data):
+    """Newest first. Ties keep the order in site.json."""
+    return sorted(data.get("projects", []), key=lambda p: date_key(p) or (0, 0), reverse=True)
+
+
 def all_docs(p):
     """Primary document (cover image links to it) + any extra_documents (poster, slides, ...)."""
     return ([p["document"]] if p.get("document") else []) + list(p.get("extra_documents") or [])
@@ -81,6 +103,8 @@ def validate(data):
             if not p.get(field):
                 err(f"{where}: missing '{field}'")
         pid = p.get("id", "")
+        if p.get("date") and date_key(p) is None:
+            err(f"{where}: date '{p['date']}' not understood — use 'Mon YYYY' or 'YYYY', or add sort_date 'YYYY-MM'")
         if pid in ids:
             err(f"{where}: duplicate id '{pid}'")
         ids.add(pid)
@@ -147,7 +171,7 @@ def render_updates(data):
 
 def render_cards(data):
     out = []
-    for p in data.get("projects", []):
+    for p in sorted_projects(data):
         doc = p.get("document")
         pf = (p.get("portfolio") or {}).get("include")
         if p.get("cover"):
@@ -209,7 +233,7 @@ def render_portfolio(data):
     owner = data.get("owner", "")
     site = data.get("site_url", "").rstrip("/")
     out = []
-    for p in data.get("projects", []):
+    for p in sorted_projects(data):
         pf = p.get("portfolio") or {}
         if not pf.get("include"):
             continue

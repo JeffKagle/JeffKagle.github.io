@@ -19,7 +19,7 @@ Never hand-edit inside BUILD regions — edit the data file and rebuild.
    candidate figures, page contact sheets, and a JSON stub.
 2. Read the document. Pick a cover image and the major figures (results first). Save them with
    `ingest.py image` (extracted bitmaps/photos) or `ingest.py crop` (vector plots, multi-panel figures).
-3. Add the stub to the TOP of `projects` in `data/site.json` and fill it in from the owner's
+3. Add the stub to `projects` in `data/site.json` (pages sort newest-first by `date`; use "Mon YYYY" or add `sort_date` "YYYY-MM") and fill it in from the owner's
    description plus the document:
    - `document` is the main file (the card image links to it). A second file for the same project
      (poster, slides) goes in `extra_documents` with its own label + sha256 — ingest it with its own
