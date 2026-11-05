@@ -287,7 +287,14 @@
             "wide": true
           }
         ]
-      }
+      },
+      "extra_documents": [
+        {
+          "label": "Provisional Patent Application (draft)",
+          "file": "assets/docs/ancore-tiller-extension-patent.pdf",
+          "sha256": "3ccfe7cad04d124948a8ed209b5abf84853e8fed7725cc1faea9f844e01e4012"
+        }
+      ]
     },
     {
       "id": "snap-through-actuator",
@@ -536,6 +543,12 @@
       "venue": "MAE 5630 · Cornell · 2026",
       "authors": "Mae Sliwinski, Garrett Smith, Alex Jenkins, Jeffrey Kagle",
       "file": "assets/PDS - Tiller Extension (3).pdf"
+    },
+    {
+      "title": "Rope-Core Reinforced Polyurethane Universal Joint with Woven Mesh Sleeve for Sailing Tiller Extensions",
+      "venue": "Provisional Patent Application (draft) · 2026",
+      "authors": "Jeffrey A. Kagle, Alex Jenkins, Garrett Smith, Mae Sliwinski",
+      "file": "assets/docs/ancore-tiller-extension-patent.pdf"
     },
     {
       "title": "Hybrid Dielectric Elastomer Actuator for Biologically Inspired Propulsion",
