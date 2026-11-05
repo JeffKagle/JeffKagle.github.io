@@ -1,0 +1,52 @@
+{
+  "site_url": "https://jeffreykagle.com",
+  "owner": "Jeffrey Kagle",
+
+  "updates": [
+    { "date": "Jun 2026", "text": "Applying to PhD programs in Fall 2027 around the world to focus on embodied energy, embodied intelligence, and acoustic systems for robotics." },
+    { "date": "Jun 2026", "text": "Spending the summer with ORL at Cornell to continue progress on my master's thesis." },
+    { "date": "May 2026", "text": "Finished my second semester at Cornell with a 3.87 GPA!" }
+  ],
+
+  "projects": [
+    {
+      "id": "ancore-tiller-extension",
+      "title": "ANCORE U Tiller Extension Joint",
+      "tag": "Product Design",
+      "date": "2026",
+      "context": "MAE 5630 Advanced Product Design · Cornell",
+      "team": "Mae Sliwinski, Garrett Smith, Alex Jenkins, Jeffrey Kagle",
+      "summary": "Competitive sailing hardware with a three-layer elastomeric architecture — polyurethane body, nylon rope core, and woven polymer mesh sleeve. Patent pending.",
+      "cover": "assets/img/ancore-tiller-extension/cover.jpg",
+      "cover_alt": "CAD rendering of the ANCORE tiller extension and its mesh-sleeved joint",
+      "document": {
+        "label": "Product Design Specification",
+        "file": "assets/PDS - Tiller Extension (3).pdf",
+        "sha256": "800814a4dd3f4eebd99b478c51f1a4af81f5bfee12417f6c0ba19ce02f3a2198"
+      },
+      "portfolio": {
+        "include": true,
+        "overview": "Competitive sailing hardware with a three-layer elastomeric architecture — polyurethane body, nylon rope core, and woven polymer mesh sleeve. Patent pending.",
+        "metrics": [],
+        "results": [],
+        "figures": [
+          {
+            "src": "assets/img/ancore-tiller-extension/cover.jpg",
+            "caption": "CAD renderings of the tiller extension (left) and the mesh-sleeved joint (right).",
+            "source_page": 6,
+            "wide": true
+          }
+        ]
+      }
+    }
+  ],
+
+  "publications": [
+    {
+      "title": "ANCORE U Tiller Extension Joint — Product Design Specification",
+      "venue": "MAE 5630 · Cornell · 2026",
+      "authors": "Mae Sliwinski, Garrett Smith, Alex Jenkins, Jeffrey Kagle",
+      "file": "assets/PDS - Tiller Extension (3).pdf"
+    }
+  ]
+}
