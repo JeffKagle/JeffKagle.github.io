@@ -362,6 +362,80 @@
           }
         ]
       }
+    },
+    {
+      "id": "gait-coach",
+      "title": "The Gait Coach: Haptic Cues for Gait Pacing",
+      "tag": "Haptics",
+      "date": "Dec 2025",
+      "context": "MAE 6800 Haptics · Cornell University",
+      "team": "Jeffrey A. Kagle, EV Morisseau, Daniel Garcia",
+      "summary": "A wearable that delivers vibrotactile, skin-stretch, poke, or audio cues at a set walking pace while a foot IMU times how fast the wearer matches it. Vibrotactile cues came closest to the audio control.",
+      "cover": "assets/img/gait-coach/cover.jpg",
+      "cover_alt": "The Gait Coach hardware: forearm haptic band, electronics, IMU strap, and headphones",
+      "document": {
+        "label": "Final Paper",
+        "file": "assets/Gait Coach Final Paper.pdf",
+        "sha256": "052c9f9e435ca751e917994c42715c0b74e6b32266cd9121e8647882d7fc0be3"
+      },
+      "extra_documents": [],
+      "portfolio": {
+        "include": true,
+        "overview": "Haptic cues are increasingly used in gait rehabilitation, but few studies compare feedback types head-to-head on both walking performance and user experience. With Daniel Garcia and EV Morisseau, I built The Gait Coach, a wearable that delivers vibrotactile, skin-stretch, poke, or auditory cues at 120 steps per minute while an IMU on the foot measures how quickly the wearer locks onto that pace. In a three-participant study, vibrotactile feedback came closest to the auditory control, while audio remained the most comfortable.",
+        "metrics": [
+          {
+            "value": "p = 0.604",
+            "label": "vibrotactile vs. audio time-to-match (Welch's t-test), closest to the control"
+          },
+          {
+            "value": "4",
+            "label": "feedback types: vibrotactile, skin stretch, poke, and audio"
+          },
+          {
+            "value": "120 SPM",
+            "label": "metronomic pacing target, detected with a foot-mounted IMU"
+          },
+          {
+            "value": "12",
+            "label": "randomized 30 m walking trials per participant"
+          }
+        ],
+        "results": [
+          "Vibrotactile cues matched the audio control most closely: Welch's t-tests on time-to-match gave p = 0.604 for vibrotactile versus audio, compared with p = 0.1730 for skin stretch.",
+          "Participants rated audio highest for comfort, perceptibility, and self-scored matching, with vibrotactile a close second; skin stretch ranked lowest and, with poke, was called the most confusing.",
+          "Built the wearable around a Hapkit board: an ERM motor, a solenoid poke, a DC-motor skin-stretch end effector, and headphones, with custom 3D-printed housings for each actuator.",
+          "Wrote a heel-strike detector for the foot IMU (acceleration-magnitude threshold with a refractory period) that times how long a walker takes to hold the target cadence for 6 consecutive seconds.",
+          "Poke testing was cut short when the solenoid's power draw disrupted the microcontroller, leaving one data point; a separate 12 V supply, sturdier connections, and better data logging are the identified fixes."
+        ],
+        "figures": [
+          {
+            "src": "assets/img/gait-coach/match-times.png",
+            "caption": "Time to match the 120 SPM cue by feedback type, with Welch's t-test p-values against the audio control (diamonds are means).",
+            "source_page": 4,
+            "wide": true
+          },
+          {
+            "src": "assets/img/gait-coach/likert.png",
+            "caption": "Mean Likert scores for comfort, perception, and self-rated matching by feedback type.",
+            "source_page": 5
+          },
+          {
+            "src": "assets/img/gait-coach/device.jpg",
+            "caption": "Final assembly: IMU strap, forearm haptic band, upper-arm electronics band, and headphones.",
+            "source_page": 2
+          },
+          {
+            "src": "assets/img/gait-coach/circuit.png",
+            "caption": "Circuit diagram: Hapkit board driving the ERM motor, solenoid, and DC motor, with the IMU.",
+            "source_page": 2
+          },
+          {
+            "src": "assets/img/gait-coach/housings.jpg",
+            "caption": "Custom 3D-printed housings for the solenoid, ERM motor, skin-stretch end effector, and DC motor.",
+            "source_page": 7
+          }
+        ]
+      }
     }
   ],
   "publications": [
@@ -370,6 +444,12 @@
       "venue": "Micro and Nano Robotics Final Paper · Cornell University · December 2025",
       "authors": "LZ Corrales, Jeffrey Kagle",
       "file": "assets/MicroandNanoRoboticsProject.pdf"
+    },
+    {
+      "title": "The Gait Coach",
+      "venue": "MAE 6800 Haptics Final Paper · Cornell University · December 2025",
+      "authors": "Jeffrey A. Kagle, EV Morisseau, Daniel Garcia",
+      "file": "assets/Gait Coach Final Paper.pdf"
     },
     {
       "title": "ANCORE U Tiller Extension Joint — Product Design Specification",
