@@ -205,6 +205,11 @@ def render_portfolio(data):
         if p.get("team"):
             parts.append(f'    <p class="pf-team">{bold_owner(p["team"], owner)}</p>')
         parts.append(f'    <p class="pf-overview">{esc(pf["overview"])}</p>')
+        docs = all_docs(p)
+        if docs:
+            links = "".join(f'<a class="btn" href="{href(site + "/" + d["file"])}" target="_blank" rel="noopener">'
+                            f'↓ {esc(d.get("label") or "PDF")}</a>' for d in docs)
+            parts.append(f'    <div class="pf-docs">{links}</div>')
         if pf.get("metrics"):
             tiles = "".join(f'<div class="pf-metric"><span class="pf-metric-value">{esc(m["value"])}</span>'
                             f'<span class="pf-metric-label">{esc(m["label"])}</span></div>' for m in pf["metrics"])
@@ -218,11 +223,6 @@ def render_portfolio(data):
         if len(figs) > 1:
             rest = "".join(render_figure(f, i + 2) for i, f in enumerate(figs[1:]))
             parts.append(f'    <div class="pf-figures">{rest}</div>')
-        docs = all_docs(p)
-        if docs:
-            links = "".join(f'<a class="btn" href="{href(site + "/" + d["file"])}" target="_blank" rel="noopener">'
-                            f'↓ {esc(d.get("label") or "PDF")}</a>' for d in docs)
-            parts.append(f'    <div class="pf-docs">{links}</div>')
         out.append(f'  <section class="pf-item" id="{esc(p["id"])}">\n' + "\n".join(parts) + "\n  </section>")
     if not out:
         out.append('  <section class="pf-item"><p class="empty-note">Portfolio entries coming soon.</p></section>')

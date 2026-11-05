@@ -449,7 +449,7 @@ section + section { border-top: 1px solid var(--border); }
 .pf-figure figcaption { font-size: 0.8rem; color: var(--mid); margin-top: 8px; line-height: 1.5; }
 .pf-figure figcaption b { color: var(--black); font-weight: 600; }
 
-.pf-docs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.pf-docs { display: flex; flex-wrap: wrap; gap: 8px; margin: -12px 0 28px; }
 
 @media (max-width: 680px) {
   .pf-figures { grid-template-columns: 1fr; }
@@ -508,7 +508,7 @@ footer {
   .pf-metric { padding: 8pt 10pt; }
   .pf-metric-value { font-size: 18pt; }
   .pf-figures { gap: 12pt; margin-bottom: 16pt; }
-  .pf-figure img { max-height: 3.4in; border: none; background: none; }
+  .pf-figure img { max-height: 2.1in; border: none; background: none; }
   .pf-figures.lead { display: block; }
   .pf-figures.lead .pf-figure img { max-height: 2.6in; }
   .pf-figure figcaption { font-size: 8.5pt; }
