@@ -509,7 +509,7 @@ footer {
   .pf-metric-value { font-size: 18pt; }
   .pf-figures { gap: 12pt; margin-bottom: 16pt; }
   .pf-figure img { max-height: 3.4in; border: none; background: none; }
-  .pf-figures.lead .pf-figure img { max-height: 4in; }
+  .pf-figures.lead .pf-figure img { max-height: 3.2in; }
   .pf-figure figcaption { font-size: 8.5pt; }
   .pf-subhead { break-after: avoid; }
   .pf-results, .pf-metrics { break-inside: avoid; }

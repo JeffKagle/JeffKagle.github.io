@@ -21,6 +21,9 @@ Never hand-edit inside BUILD regions — edit the data file and rebuild.
    `ingest.py image` (extracted bitmaps/photos) or `ingest.py crop` (vector plots, multi-panel figures).
 3. Add the stub to the TOP of `projects` in `data/site.json` and fill it in from the owner's
    description plus the document:
+   - `document` is the main file (the card image links to it). A second file for the same project
+     (poster, slides) goes in `extra_documents` with its own label + sha256 — ingest it with its own
+     slug, e.g. `<slug>-poster`, and use `crop --doc <slug>-poster` to take figures from it.
    - `summary`: 1–2 sentences for the projects-page card (what it is + headline result).
    - `portfolio.include`: true only if the owner said it is for the portfolio.
    - `portfolio.overview`: 2–3 sentences, problem → approach → outcome.

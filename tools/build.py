@@ -48,6 +48,11 @@ def sha256(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 # ───────────────────────── validation ─────────────────────────
 
+def all_docs(p):
+    """Primary document (cover image links to it) + any extra_documents (poster, slides, ...)."""
+    return ([p["document"]] if p.get("document") else []) + list(p.get("extra_documents") or [])
+
+
 def check_file(path, where, kind="file"):
     if not path:
         err(f"{where}: missing {kind} path")
@@ -77,10 +82,9 @@ def validate(data):
             check_file(p["cover"], where, "cover image")
         else:
             warn(f"{where}: no cover image (card shows a placeholder)")
-        doc = p.get("document")
-        if not doc:
+        if not p.get("document"):
             warn(f"{where}: no document attached")
-        else:
+        for doc in all_docs(p):
             if check_file(doc.get("file"), where, "document"):
                 want = doc.get("sha256")
                 got = sha256(ROOT / doc["file"])
@@ -142,8 +146,8 @@ def render_cards(data):
         else:
             cover = visual
         actions = []
-        if doc:
-            actions.append(f'<a class="btn btn-sm" href="{href(doc["file"])}" target="_blank" rel="noopener">↓ {esc(doc.get("label") or "Document")}</a>')
+        for d in all_docs(p):
+            actions.append(f'<a class="btn btn-sm" href="{href(d["file"])}" target="_blank" rel="noopener">↓ {esc(d.get("label") or "Document")}</a>')
         if pf:
             actions.append(f'<a class="btn btn-sm" href="portfolio.html#{esc(p["id"])}">Portfolio →</a>')
         out.append(f"""      <article class="project-card" id="project-{esc(p['id'])}">
@@ -214,10 +218,11 @@ def render_portfolio(data):
         if len(figs) > 1:
             rest = "".join(render_figure(f, i + 2) for i, f in enumerate(figs[1:]))
             parts.append(f'    <div class="pf-figures">{rest}</div>')
-        doc = p.get("document")
-        if doc:
-            parts.append(f'    <div class="pf-docs"><a class="btn" href="{href(site + "/" + doc["file"])}" '
-                         f'target="_blank" rel="noopener">↓ Full document: {esc(doc.get("label") or "PDF")}</a></div>')
+        docs = all_docs(p)
+        if docs:
+            links = "".join(f'<a class="btn" href="{href(site + "/" + d["file"])}" target="_blank" rel="noopener">'
+                            f'↓ {esc(d.get("label") or "PDF")}</a>' for d in docs)
+            parts.append(f'    <div class="pf-docs">{links}</div>')
         out.append(f'  <section class="pf-item" id="{esc(p["id"])}">\n' + "\n".join(parts) + "\n  </section>")
     if not out:
         out.append('  <section class="pf-item"><p class="empty-note">Portfolio entries coming soon.</p></section>')

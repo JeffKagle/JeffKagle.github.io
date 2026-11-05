@@ -151,6 +151,7 @@ def cmd_doc(args):
         "summary": "",
         "cover": f"assets/img/{args.slug}/cover.jpg", "cover_alt": "",
         "document": {"label": "", "file": str(dest.relative_to(ROOT)), "sha256": doc_hash},
+        "extra_documents": [],
         "portfolio": {"include": False, "overview": "", "metrics": [], "results": [], "figures": []},
     }
     print("\nsite.json stub (add to the TOP of \"projects\"):")
@@ -158,9 +159,9 @@ def cmd_doc(args):
 
 
 def cmd_crop(args):
-    pdf = ROOT / "assets" / "docs" / f"{args.slug}.pdf"
+    pdf = ROOT / "assets" / "docs" / f"{args.doc or args.slug}.pdf"
     if not pdf.exists():
-        sys.exit(f"no document for slug {args.slug}: {pdf}")
+        sys.exit(f"no document: {pdf}")
     with tempfile.TemporaryDirectory() as tmp:
         subprocess.run(["pdftoppm", "-r", str(args.dpi), "-png", "-f", str(args.page), "-l", str(args.page),
                         str(pdf), f"{tmp}/p"], check=True)
@@ -182,6 +183,7 @@ def main():
     for k in ("x0", "y0", "x1", "y1"):
         c.add_argument(k, type=float)
     c.add_argument("name"); c.add_argument("--png", action="store_true"); c.add_argument("--dpi", type=int, default=200)
+    c.add_argument("--doc", help="crop from assets/docs/<doc>.pdf instead of <slug>.pdf (e.g. a poster)")
     i = sub.add_parser("image"); i.add_argument("src"); i.add_argument("slug"); i.add_argument("name")
     i.add_argument("--png", action="store_true"); i.add_argument("--max", type=int, default=1600)
     args = ap.parse_args()

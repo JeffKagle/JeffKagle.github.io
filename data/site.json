@@ -1,14 +1,106 @@
 {
   "site_url": "https://jeffreykagle.com",
   "owner": "Jeffrey Kagle",
-
   "updates": [
-    { "date": "Jun 2026", "text": "Applying to PhD programs in Fall 2027 around the world to focus on embodied energy, embodied intelligence, and acoustic systems for robotics." },
-    { "date": "Jun 2026", "text": "Spending the summer with ORL at Cornell to continue progress on my master's thesis." },
-    { "date": "May 2026", "text": "Finished my second semester at Cornell with a 3.87 GPA!" }
+    {
+      "date": "Jun 2026",
+      "text": "Applying to PhD programs in Fall 2027 around the world to focus on embodied energy, embodied intelligence, and acoustic systems for robotics."
+    },
+    {
+      "date": "Jun 2026",
+      "text": "Spending the summer with ORL at Cornell to continue progress on my master's thesis."
+    },
+    {
+      "date": "May 2026",
+      "text": "Finished my second semester at Cornell with a 3.87 GPA!"
+    }
   ],
-
   "projects": [
+    {
+      "id": "hasel-rotary-actuator",
+      "title": "Liquid Dielectric Elastomer Actuator Motor for Underwater Propulsion",
+      "tag": "Soft Robotics",
+      "date": "2025",
+      "context": "Senior Project · Case Western Reserve University · Advisor: Prof. Chase Cao",
+      "team": "Jeffrey Kagle, Katharine Lobas, Jarod Lau, Yi Jin, Chase Cao",
+      "summary": "Undergraduate senior project: a 20 cm soft rotary motor in which four liquid Peano-HASEL actuators pull in sequence, turning linear contraction into rotation for underwater propulsion.",
+      "cover": "assets/img/hasel-rotary-actuator/cover.jpg",
+      "cover_alt": "Fabricated quarter-circle Peano-HASEL actuator with painted carbon electrodes",
+      "document": {
+        "label": "Final Report",
+        "file": "assets/docs/hasel-rotary-actuator.pdf",
+        "sha256": "a547720d36c468aa2adf9461f0d415241cf2fbce96fc9d5c8fb2dd4de6881d0a"
+      },
+      "extra_documents": [
+        {
+          "label": "Poster · CWRU Intersections 2025",
+          "file": "assets/docs/hasel-rotary-actuator-poster.pdf",
+          "sha256": "6e4f88d4bcb2eefdeab4e63745e1f0e872aa41c25e817048e62f203ee1735e7c"
+        }
+      ],
+      "portfolio": {
+        "include": true,
+        "overview": "Rigid motors and hydraulics struggle under deep-water pressure and tend to be bulky and inefficient, while conventional dielectric elastomer actuators deliver high force but little displacement. We designed a deformable rotary motor driven by liquid dielectric elastomer actuators (Peano-HASELs), selected the concept through weighted trade studies, and built custom quarter-circle actuators and a 3D-printed motor housing as a proof of concept.",
+        "metrics": [
+          {
+            "value": "4",
+            "label": "liquid Peano-HASEL actuators pulling in sequence on one rotor"
+          },
+          {
+            "value": "20 cm",
+            "label": "motor diameter, 3D-printed frame on two ball bearings"
+          },
+          {
+            "value": "5–9 kV",
+            "label": "drive voltages tested; actuators deformed without damage"
+          },
+          {
+            "value": "3.1",
+            "label": "trade-study score for rotary motion (flapping 2.45, jetting 2.2)"
+          }
+        ],
+        "results": [
+          "Weighted trade studies selected liquid DEAs as the actuation method (score 2.9, ahead of solid DEAs at 2.7, motors at 2.6, and hydraulics at 2.0) and rotary motion as the movement method (3.1 vs. 2.45 for flapping and 2.2 for jetting).",
+          "Designed a three-pouch, quarter-circle Peano-HASEL actuator with painted carbon electrodes so four units fit around a circular frame and pull on an eccentric central rotor.",
+          "Developed the fabrication process: heat-sealing BOPP film with a 3D printer, painting carbon electrodes, injecting silicone oil as the liquid dielectric, and resealing the pouches.",
+          "Fabricated actuators deformed at 5, 8, and 9 kV from an off-board high-voltage DC/DC converter without damage; testing was limited to verifying functionality.",
+          "Identified the main manufacturing fixes for future builds: thicker seal lines in the printer path to prevent leaks, better-placed injection points, and fewer air bubbles in the pouches."
+        ],
+        "figures": [
+          {
+            "src": "assets/img/hasel-rotary-actuator/fabrication.jpg",
+            "caption": "Actuator fabrication: heat-seal BOPP film with a 3D printer, remove the Kapton layer, trim, paint carbon electrodes, inject the liquid dielectric, and reseal the pouches.",
+            "source": "poster",
+            "source_page": 1,
+            "wide": true
+          },
+          {
+            "src": "assets/img/hasel-rotary-actuator/cad-assembly.jpg",
+            "caption": "Full CAD assembly: 3D-printed frame, support struts, and central hub with shaft on two ball bearings.",
+            "source": "poster",
+            "source_page": 1
+          },
+          {
+            "src": "assets/img/hasel-rotary-actuator/exploded-view.jpg",
+            "caption": "Exploded view and dimensioned drawing of the 20 cm motor.",
+            "source": "report",
+            "source_page": 8
+          },
+          {
+            "src": "assets/img/hasel-rotary-actuator/actuator-design.jpg",
+            "caption": "Quarter-circle actuator design (left) and painted carbon electrode layout (right).",
+            "source": "report",
+            "source_page": 9
+          },
+          {
+            "src": "assets/img/hasel-rotary-actuator/concepts.png",
+            "caption": "Concepts compared in the trade studies: bioinspired flapping propulsion, liquid DEA rotor, and liquid–solid DEA hybrid.",
+            "source": "poster",
+            "source_page": 1
+          }
+        ]
+      }
+    },
     {
       "id": "ancore-tiller-extension",
       "title": "ANCORE U Tiller Extension Joint",
@@ -40,13 +132,24 @@
       }
     }
   ],
-
   "publications": [
     {
       "title": "ANCORE U Tiller Extension Joint — Product Design Specification",
       "venue": "MAE 5630 · Cornell · 2026",
       "authors": "Mae Sliwinski, Garrett Smith, Alex Jenkins, Jeffrey Kagle",
       "file": "assets/PDS - Tiller Extension (3).pdf"
+    },
+    {
+      "title": "Hybrid Dielectric Elastomer Actuator for Biologically Inspired Propulsion",
+      "venue": "Senior Project Report · Case Western Reserve University · 2025",
+      "authors": "Jeffrey Kagle",
+      "file": "assets/docs/hasel-rotary-actuator.pdf"
+    },
+    {
+      "title": "Liquid Dielectric Elastomer Actuator Motor for Underwater Propulsion",
+      "venue": "Poster · CWRU Intersections · April 2025",
+      "authors": "Jeffrey Kagle, Katharine Lobas, Jarod Lau, Yi Jin, Chase Cao",
+      "file": "assets/docs/hasel-rotary-actuator-poster.pdf"
     }
   ]
 }
