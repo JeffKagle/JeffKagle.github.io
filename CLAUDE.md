@@ -31,6 +31,12 @@ Never hand-edit inside BUILD regions — edit the data file and rebuild.
      numbers that appear in the document; never round in a way that changes the claim.
    - `portfolio.results`: 3–5 concrete findings, results-first wording.
    - `portfolio.figures`: major figures with captions and `source_page`; first one is shown large.
+   - Theory/literature projects: `portfolio.results_heading` (e.g. "Key contributions") and
+     `portfolio.sections` = [{heading, blocks: [{text} | {equation, alt}]}] for a written model
+     section; typeset equations with `ingest.py equation`. Text may use <sub>/<sup>/<i>/<b>.
+   - Prefer the owner's own figures. Don't feature figures reproduced from other people's papers;
+     if a document has none, ask — an AI illustration is OK only if labeled as AI-generated on the
+     image and in the caption.
 4. If it is a paper/report, also add it to `publications` (owner's name gets bolded automatically).
 5. `python3 tools/build.py`, check screenshots, commit, push. Tell the owner what was added and
    anything in the summary they should verify.

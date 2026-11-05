@@ -46,6 +46,14 @@ def href(path): return esc(quote(path, safe="/:#?=&%"))
 def sha256(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
+def rich(s):
+    """Escape text but allow <sub>, <sup>, <i>, <b> for variable names in write-ups."""
+    out = esc(s)
+    for tag in ("sub", "sup", "i", "b"):
+        out = out.replace(f"&lt;{tag}&gt;", f"<{tag}>").replace(f"&lt;/{tag}&gt;", f"</{tag}>")
+    return out
+
+
 # ───────────────────────── validation ─────────────────────────
 
 def all_docs(p):
@@ -100,6 +108,12 @@ def validate(data):
                 check_file(f.get("src"), f"{where} figure {j + 1}", "figure")
                 if not f.get("caption"):
                     warn(f"{where} figure {j + 1}: no caption")
+            for s_i, sec in enumerate(pf.get("sections", [])):
+                if not sec.get("heading"):
+                    err(f"{where} section {s_i + 1}: missing heading")
+                for blk in sec.get("blocks", []):
+                    if "equation" in blk:
+                        check_file(blk["equation"], f"{where} section {s_i + 1}", "equation")
             for j, m in enumerate(pf.get("metrics", [])):
                 if not (m.get("value") and m.get("label")):
                     err(f"{where} metric {j + 1}: needs 'value' and 'label'")
@@ -218,8 +232,16 @@ def render_portfolio(data):
         if figs:  # lead figure, full width, right after the headline numbers
             parts.append(f'    <div class="pf-figures lead">{render_figure(figs[0], 1)}</div>')
         if pf.get("results"):
-            items = "".join(f"<li>{esc(r)}</li>" for r in pf["results"])
-            parts.append(f'    <h3 class="pf-subhead">Key results</h3>\n    <ul class="pf-results">{items}</ul>')
+            items = "".join(f"<li>{rich(r)}</li>" for r in pf["results"])
+            heading = esc(pf.get("results_heading") or "Key results")
+            parts.append(f'    <h3 class="pf-subhead">{heading}</h3>\n    <ul class="pf-results">{items}</ul>')
+        for sec in pf.get("sections", []):  # written write-ups, e.g. a model derivation
+            parts.append(f'    <h3 class="pf-subhead">{esc(sec["heading"])}</h3>')
+            for blk in sec.get("blocks", []):
+                if "text" in blk:
+                    parts.append(f'    <p class="pf-text">{rich(blk["text"])}</p>')
+                elif "equation" in blk:
+                    parts.append(f'    <div class="pf-eq"><img src="{href(blk["equation"])}" alt="{esc(blk.get("alt", "equation"))}" /></div>')
         if len(figs) > 1:
             rest = "".join(render_figure(f, i + 2) for i, f in enumerate(figs[1:]))
             parts.append(f'    <div class="pf-figures">{rest}</div>')

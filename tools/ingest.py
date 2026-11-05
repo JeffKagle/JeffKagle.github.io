@@ -13,6 +13,10 @@
       of page width/height, origin top-left) to assets/img/<slug>/<name>.jpg|png.
       Use for vector plots/diagrams that pdfimages can't extract.
 
+  python3 tools/ingest.py equation <slug> <name> '<latex>' [--size 18]
+      Typesets an equation (matplotlib mathtext) to assets/img/<slug>/<name>.svg for use in
+      a portfolio "sections" write-up.
+
   python3 tools/ingest.py image <src> <slug> <name> [--png] [--max 1600]
       Resizes + compresses an image (extracted figure or a photo the owner sent)
       into assets/img/<slug>/<name>.jpg|png.
@@ -171,6 +175,22 @@ def cmd_crop(args):
         save_image(page.crop(box), args.slug, args.name, png=args.png)
 
 
+def cmd_equation(args):
+    """Render a LaTeX (matplotlib mathtext) equation to a crisp SVG for portfolio write-ups."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    matplotlib.rcParams.update({"mathtext.fontset": "cm", "svg.fonttype": "path"})
+    out_dir = ROOT / "assets" / "img" / args.slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / f"{args.name}.svg"
+    fig = plt.figure(figsize=(0.01, 0.01))
+    fig.text(0, 0, f"${args.latex}$", fontsize=args.size, color="#1A1A1A")
+    fig.savefig(out, format="svg", transparent=True, bbox_inches="tight", pad_inches=0.04)
+    plt.close(fig)
+    print(f"saved {out.relative_to(ROOT)}  {out.stat().st_size // 1024} KB")
+
+
 def cmd_image(args):
     save_image(Image.open(args.src), args.slug, args.name, png=args.png, max_side=args.max)
 
@@ -186,8 +206,11 @@ def main():
     c.add_argument("--doc", help="crop from assets/docs/<doc>.pdf instead of <slug>.pdf (e.g. a poster)")
     i = sub.add_parser("image"); i.add_argument("src"); i.add_argument("slug"); i.add_argument("name")
     i.add_argument("--png", action="store_true"); i.add_argument("--max", type=int, default=1600)
+    q = sub.add_parser("equation", help="render LaTeX math to assets/img/<slug>/<name>.svg")
+    q.add_argument("slug"); q.add_argument("name"); q.add_argument("latex", help="mathtext, without the $ signs")
+    q.add_argument("--size", type=int, default=18)
     args = ap.parse_args()
-    {"doc": cmd_doc, "crop": cmd_crop, "image": cmd_image}[args.cmd](args)
+    {"doc": cmd_doc, "crop": cmd_crop, "image": cmd_image, "equation": cmd_equation}[args.cmd](args)
 
 
 if __name__ == "__main__":

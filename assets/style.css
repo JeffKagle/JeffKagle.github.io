@@ -420,6 +420,13 @@ section + section { border-top: 1px solid var(--border); }
   margin: 4px 0 12px;
 }
 
+.pf-text { font-size: 0.95rem; line-height: 1.75; color: #374151; margin-bottom: 14px; max-width: 760px; }
+
+.pf-eq { margin: 6px 0 20px; padding: 14px 18px; background: #FAFAFA; border-left: 3px solid var(--border); overflow-x: auto; break-inside: avoid; }
+.pf-eq img { display: block; max-width: 100%; height: auto; }
+
+.pf-text + .pf-subhead, .pf-eq + .pf-subhead { margin-top: 28px; }
+
 .pf-results { margin: 0 0 32px 20px; font-size: 0.95rem; color: #374151; line-height: 1.7; }
 .pf-results li { margin-bottom: 8px; }
 .pf-results li::marker { color: var(--accent); }
@@ -503,16 +510,19 @@ footer {
   .pf-item { padding: 0; }
   .pf-item + .pf-item { break-before: page; }
   .pf-title { font-size: 20pt; }
-  .pf-overview, .pf-results { font-size: 10.5pt; line-height: 1.55; }
+  .pf-overview, .pf-results, .pf-text { font-size: 10.5pt; line-height: 1.55; }
+  .pf-text { margin-bottom: 6pt; }
+  .pf-eq { margin: 2pt 0 10pt; padding: 6pt 10pt; }
+  .pf-eq img { max-height: 0.7in; width: auto; max-width: 100%; }
   .pf-metrics { gap: 8pt; margin-bottom: 16pt; }
   .pf-metric { padding: 8pt 10pt; }
   .pf-metric-value { font-size: 18pt; }
   .pf-figures { gap: 12pt; margin-bottom: 16pt; }
   .pf-figure img { max-height: 2.1in; border: none; background: none; }
   .pf-figures.lead { display: block; }
-  .pf-figures.lead .pf-figure img { max-height: 2.6in; }
+  .pf-figures.lead .pf-figure img { max-height: 2.3in; }
   .pf-figure figcaption { font-size: 8.5pt; }
   .pf-subhead { break-after: avoid; }
-  .pf-results, .pf-metrics { break-inside: avoid; }
+  .pf-metrics, .pf-results li { break-inside: avoid; }
   .pf-docs .btn { border: none; padding: 0; font-size: 9.5pt; text-decoration: underline; }
 }

@@ -19,13 +19,13 @@
     {
       "id": "cuttlefish-hybrid-model",
       "title": "Biological and Robotic Synthesized Cuttlefish Fin Biomechanical Model",
-      "tag": "Biomechanics",
-      "date": "2024",
-      "context": "EMAE 415 Biomechanics · Case Western Reserve University",
+      "tag": "Biomechanics · Theory",
+      "date": "Dec 2024",
+      "context": "EMAE 415 Biomechanics · Case Western Reserve University · presented December 2024",
       "team": "Jeffrey Kagle",
-      "summary": "Final project for a biomechanics course: a hybrid model of cuttlefish fin propulsion that combines biological fin mechanics with a robotic sinusoidal-fin model to estimate forward thrust, which had no existing model.",
+      "summary": "Theory and literature-review project for a biomechanics course: a hybrid model of cuttlefish fin propulsion that combines biological fin mechanics with a robotic sinusoidal-fin model to estimate forward thrust, which had no existing model.",
       "cover": "assets/img/cuttlefish-hybrid-model/cover.jpg",
-      "cover_alt": "Cuttlefish anatomy diagram (reproduced in the paper from ref. 11)",
+      "cover_alt": "AI-generated illustration of a cuttlefish seen from above, with rippling fins and thrust and drag arrows",
       "document": {
         "label": "Final Paper",
         "file": "assets/docs/cuttlefish-hybrid-model.pdf",
@@ -34,7 +34,7 @@
       "extra_documents": [],
       "portfolio": {
         "include": true,
-        "overview": "Cuttlefish swim by passing a sinusoidal wave along muscular-hydrostat fins, but no experimental study had measured or modeled the thrust these fins produce for forward swimming. This project synthesized biological fin mechanics (anatomy, EMG activation, and force–strain models) with a robotic sinusoidal-fin model into one hybrid force model, creating a benchmark for comparing cuttlefish and designing soft biomimetic robots.",
+        "overview": "Cuttlefish swim by passing a sinusoidal wave along muscular-hydrostat fins, but no experimental study had measured or modeled the thrust these fins produce for forward swimming. This theory and literature-review project synthesized biological fin mechanics (anatomy, EMG activation, and force–strain models) with a robotic sinusoidal-fin model into one hybrid force model, creating a benchmark for comparing cuttlefish and designing soft biomimetic robots.",
         "metrics": [
           {
             "value": "3D",
@@ -50,40 +50,64 @@
           }
         ],
         "results": [
-          "Built a hybrid thrust model by equating the robotic sinusoidal-fin equations of Su et al. with the biological fin-force model of Johnsen and Kier, assuming a robot of matched size and shape — filling the gap left by the lack of measured fin thrust data for cuttlefish.",
-          "Solved for thrust from the change in velocity over a time segment (acceleration gives thrust minus drag), then computed drag at a point velocity to isolate point thrust and complete the 3D force equations.",
+          "Built a hybrid thrust model by equating the robotic sinusoidal-fin equations of Su et al. with the biological fin-force model of Johnsen and Kier, filling the gap left by the lack of measured fin thrust data for cuttlefish.",
           "Linked fin physiology to propulsion: muscles fire in a sinusoidal activation wave, gentle beating uses only the aerobic transverse muscle, and vigorous beating recruits all three muscle groups for higher force.",
           "Included elastic energy stored and recovered by the muscular-hydrostat fin, and estimated energy output from work (E = F·d) since no intake-versus-output data exist for fin propulsion alone.",
           "Proposed validation experiments: a soft biomimetic cuttlefish robot in a flow tank with force transducers, PIV, and strain gauges, and a live-animal flow-tank test to measure fin thrust using Newton's second law."
         ],
         "figures": [
           {
-            "src": "assets/img/cuttlefish-hybrid-model/model-equations.png",
-            "caption": "The two models combined in the hybrid: biological fin-force and strain equations (left, after Johnsen & Kier) and robotic sinusoidal-fin thrust, drag, and fluid–structure equations (right, after Su et al.).",
-            "source_page": 5,
+            "src": "assets/img/cuttlefish-hybrid-model/cover.jpg",
+            "caption": "AI-generated illustration (not from the paper): dorsal view of a cuttlefish with the fin wave travelling anterior to posterior, the resulting thrust and drag, and the body axes used in the model. Schematic, not to scale.",
             "wide": true
-          },
-          {
-            "src": "assets/img/cuttlefish-hybrid-model/fin-wave.png",
-            "caption": "Sinusoidal wave travelling from anterior to posterior along the fin (Kier et al.).",
-            "source_page": 4
-          },
-          {
-            "src": "assets/img/cuttlefish-hybrid-model/emg.jpg",
-            "caption": "EMG recordings showing fin muscles firing in step with the fin beat (Kier et al.).",
-            "source_page": 4
-          },
-          {
-            "src": "assets/img/cuttlefish-hybrid-model/fin-musculature.png",
-            "caption": "Muscular-hydrostat fin: dorsoventral, transverse, and longitudinal muscle layers (Kier, 1989).",
-            "source_page": 3
-          },
-          {
-            "src": "assets/img/cuttlefish-hybrid-model/robotic-fin.jpg",
-            "caption": "Robotic flexible-fin model used for the robotic side of the hybrid (Su et al., 2022).",
-            "source_page": 10
           }
-        ]
+        ],
+        "sections": [
+          {
+            "heading": "The hybrid thrust model",
+            "blocks": [
+              {
+                "text": "No study has measured the thrust of a live cuttlefish fin, so the model borrows it from robotics. Assuming a robotic sinusoidal fin (Su et al., 2022) with the same size and shape as the cuttlefish fin, the robot's thrust and drag equations stand in for the animal's, while the biological model (Johnsen & Kier, 1993) supplies the out-of-plane fin forces."
+              },
+              {
+                "text": "<b>1. Net force from motion.</b> Over a short time segment Δ<i>t</i>, the change in swimming velocity <i>u</i> gives the acceleration, and Newton's second law gives thrust minus drag, where <i>m</i> is the cuttlefish's wet mass:"
+              },
+              {
+                "equation": "assets/img/cuttlefish-hybrid-model/eq1-net-force.svg",
+                "alt": "F_T - F_D = m (u(t+Δt) - u(t)) / Δt"
+              },
+              {
+                "text": "<b>2. Drag at a point velocity.</b> From the robotic model, drag is the viscous shear (fluid viscosity μ) integrated over the fin surface <i>S</i>:"
+              },
+              {
+                "equation": "assets/img/cuttlefish-hybrid-model/eq2-drag.svg",
+                "alt": "F_D = μ ∫_S (∂v/∂δ · n_x)|δ=0 dS"
+              },
+              {
+                "text": "<b>3. Point thrust.</b> Combining the two isolates thrust, which must also equal the pressure <i>p</i> the beating fin exerts on the water in the swimming direction:"
+              },
+              {
+                "equation": "assets/img/cuttlefish-hybrid-model/eq3-thrust.svg",
+                "alt": "F_T(t) = ∫_S p(t)(n_x · dS) = m Δu/Δt + μ ∫_S (∂v/∂δ · n_x)|δ=0 dS"
+              },
+              {
+                "text": "<b>4. Fin forces from the animal.</b> The biological model gives the dorsoventral and lateromedial fin forces from tissue tension: <i>T</i><sub>c</sub> is the tension in the crossed connective-tissue fibres at angle θ, <i>T</i><sub>dv</sub> the dorsoventral muscle tension, <i>A</i><sub>tm</sub> and <i>s</i><sub>tm</sub> the transverse-muscle area and stress, and each element follows <i>T</i> = <i>EA</i>ε:"
+              },
+              {
+                "equation": "assets/img/cuttlefish-hybrid-model/eq4-bio.svg",
+                "alt": "F_v = 120 T_c cos θ + 60 T_dv, F_h = A_tm s_tm, T = E A ε"
+              },
+              {
+                "text": "<b>5. Combined.</b> Together these give a three-dimensional fin force in the posteroanterior, lateromedial, and dorsoventral directions:"
+              },
+              {
+                "equation": "assets/img/cuttlefish-hybrid-model/eq5-3d.svg",
+                "alt": "F_fin = (F_T, F_h, F_v)"
+              }
+            ]
+          }
+        ],
+        "results_heading": "Key contributions"
       }
     },
     {
@@ -223,7 +247,7 @@
     },
     {
       "title": "Biological and Robotic Synthesized Cuttlefish Fin Biomechanical Model",
-      "venue": "EMAE 415 Final Paper · Case Western Reserve University · 2024",
+      "venue": "EMAE 415 Final Paper · Case Western Reserve University · December 2024",
       "authors": "Jeffrey Kagle",
       "file": "assets/docs/cuttlefish-hybrid-model.pdf"
     }
