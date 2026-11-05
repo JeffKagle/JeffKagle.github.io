@@ -436,6 +436,80 @@
           }
         ]
       }
+    },
+    {
+      "id": "focus-glasses",
+      "title": "Focus Glasses",
+      "tag": "Product Design",
+      "date": "Dec 2025",
+      "context": "MAE 5340 Innovative Product Design · Cornell University",
+      "team": "Isabela Castillo, Rene Umeh, Swar Sahgal, Jeffrey Kagle, Robert Bridges",
+      "summary": "Lightweight eyewear that embeds a low-intensity 40 Hz LED flicker in the temple arms to help students stay focused through long lectures, with thermal, structural, and market analyses.",
+      "cover": "assets/img/focus-glasses/cover.jpg",
+      "cover_alt": "Renders of the Focus Glasses",
+      "document": {
+        "label": "Product Design Specification",
+        "file": "assets/docs/focus-glasses.pdf",
+        "sha256": "7bd2054b4d244be4c327f37079878091067447db35d8f61ed9aa68f41e7ee0be"
+      },
+      "extra_documents": [],
+      "portfolio": {
+        "include": true,
+        "overview": "Students struggle to stay focused through long lectures, and neither productivity apps nor current smart glasses solve it. Our team, STEN Labs, designed Focus Glasses: ordinary-looking eyewear with low-intensity 40 Hz LED flicker built into the temple arms, based on research linking 40 Hz stimulation to sustained attention. The specification covers user research, TRIZ-driven design, thermal and structural checks, conjoint-based pricing, and a five-year market forecast.",
+        "metrics": [
+          {
+            "value": "40 Hz",
+            "label": "invisible spectral LED flicker built into the temple arms"
+          },
+          {
+            "value": "3.3–5.5 °C",
+            "label": "LED temperature rise above ambient at ~22 mW per LED"
+          },
+          {
+            "value": "≈200 kPa",
+            "label": "temple stress from a 10 N press, vs. ~40 MPa ABS yield"
+          },
+          {
+            "value": "$15.54M",
+            "label": "five-year NPV from a Bass diffusion forecast"
+          }
+        ],
+        "results": [
+          "Grounded the concept in 50 immersion, observation, and interview sessions with Cornell students; an AHP ranking put academic achievement and focus as the most critical problem areas.",
+          "Designed the electronics around RGB LEDs driven by an ATtiny202 on a custom PCB in the temple arm, powered by a 3 V CR1220 cell, with TRIZ principles guiding LED placement, diffusion, and thermal management.",
+          "Thermal check: each LED dissipates about 22 mW, raising temperature only 3.3–5.5 °C above ambient, which is not a safety concern for skin contact.",
+          "Structural check: a 10 N press on the ~50 mm² temple produces about 200 kPa, orders of magnitude below the ~40 MPa yield strength of ABS.",
+          "Business case: value-based pricing of $59–$79 against a ~$50 early unit cost with injection-molded frames, and a Bass-model forecast over a 500,000-user market giving an NPV of $15,543,276."
+        ],
+        "figures": [
+          {
+            "src": "assets/img/focus-glasses/cover.jpg",
+            "caption": "Renders of the Focus Glasses.",
+            "source_page": 36,
+            "wide": true
+          },
+          {
+            "src": "assets/img/focus-glasses/conjoint.jpg",
+            "caption": "Choice-based conjoint results: relative importance of glasses style, battery life, cost, and material.",
+            "source_page": 16
+          },
+          {
+            "src": "assets/img/focus-glasses/pcb.png",
+            "caption": "Custom temple-arm PCB: EAGLE layout (left) and board render (right).",
+            "source_page": 34
+          },
+          {
+            "src": "assets/img/focus-glasses/schematic.png",
+            "caption": "Circuit schematic: ATtiny202 driving the RGB LED channels from a 3 V coin cell.",
+            "source_page": 34
+          },
+          {
+            "src": "assets/img/focus-glasses/render-angles.jpg",
+            "caption": "Additional product renders.",
+            "source_page": 36
+          }
+        ]
+      }
     }
   ],
   "publications": [
@@ -450,6 +524,12 @@
       "venue": "MAE 6800 Haptics Final Paper · Cornell University · December 2025",
       "authors": "Jeffrey A. Kagle, EV Morisseau, Daniel Garcia",
       "file": "assets/Gait Coach Final Paper.pdf"
+    },
+    {
+      "title": "Focus Glasses — Product Design Specification",
+      "venue": "MAE 5340 Innovative Product Design · Cornell University · December 2025",
+      "authors": "Isabela Castillo, Rene Umeh, Swar Sahgal, Jeffrey Kagle, Robert Bridges",
+      "file": "assets/docs/focus-glasses.pdf"
     },
     {
       "title": "ANCORE U Tiller Extension Joint — Product Design Specification",
