@@ -40,7 +40,15 @@
     @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: .8; } 90% { opacity: .5; } 100% { transform: translateY(-620px); opacity: 0; } }
     .tail { transform-box: fill-box; transform-origin: 0% 50%; animation: wiggle 1.4s ease-in-out infinite alternate; }
     @keyframes wiggle { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
-    @media (prefers-reduced-motion: reduce) { .kelp, .bubble, .tail { animation: none; } .bubble { opacity: .5; } }
+    @media (prefers-reduced-motion: reduce) { .tail { animation-duration: 2.6s; } }
+    .aq-paused .kelp, .aq-paused .bubble, .aq-paused .tail { animation-play-state: paused; }
+    .aq-toggle { display: none; }
+    @media (min-width: 1240px) {
+      .aq-toggle { display: inline-flex; align-items: center; gap: 6px; position: fixed; left: 18px; bottom: 14px; z-index: 2;
+        font: 500 0.72rem var(--sans); color: var(--mid); background: rgba(255,255,255,.85); border: 1px solid var(--border);
+        border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+      .aq-toggle:hover { color: var(--accent); border-color: var(--accent); }
+    }
     @media print { .tank { display: none !important; } }
   </style>
 </head>
@@ -69,6 +77,7 @@
     <path class="kelp k2" d="M50,900 C28,781.0 72,662.0 41.2,560" stroke="#5E9C6C" stroke-width="8" fill="none" stroke-linecap="round"/><path class="kelp k1" d="M170,900 C194,742.5 146,585.0 179.6,450" stroke="#3E7C4F" stroke-width="9" fill="none" stroke-linecap="round"/><path class="kelp k3" d="M205,900 C187,802.0 223,704.0 197.8,620" stroke="#2F6340" stroke-width="7" fill="none" stroke-linecap="round"/>
     <circle class="bubble b1" cx="110" cy="880" r="5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b3" cx="104" cy="876" r="4.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><g class="fish" data-scale="1.1" data-speed="0.24"><polygon class="tail" points="15,0 31,-9 31,9" fill="#1F6F8B"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#1F6F8B"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/><path d="M-6,-7 v14 M2,-8 v16" stroke="#fff" stroke-width="1.6" opacity=".8"/><circle cx="-2" cy="-10" r="1.6" fill="#1F6F8B"/><path d="M-2,-9 v-4" stroke="#1F6F8B" stroke-width="1.4"/></g><g class="fish" data-scale="0.75" data-speed="0.3"><polygon class="tail" points="15,0 31,-9 31,9" fill="#3E7C4F"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#3E7C4F"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g><g class="fish" data-scale="0.6" data-speed="0.32"><polygon class="tail" points="15,0 31,-9 31,9" fill="#E07A5F"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#E07A5F"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g><path d="M0,872 Q60,858 120,868 T240,862 V900 H0 Z" fill="#EFE6D2"/><ellipse cx="70" cy="874" rx="14" ry="7" fill="#D8CFBD"/><ellipse cx="190" cy="870" rx="10" ry="5" fill="#D8CFBD"/>
   </svg></div>
+  <button class="aq-toggle" type="button" aria-pressed="false">❚❚ Pause fish</button>
 
   <!-- HERO -->
   <section id="home">
@@ -379,6 +388,16 @@
     // Aquarium fish: wander around each side tank, face the way they swim, flick away from the cursor.
     (() => {
       const wide = matchMedia('(min-width: 1240px)'), calm = matchMedia('(prefers-reduced-motion: reduce)');
+      const btn = document.querySelector('.aq-toggle');
+      let paused = false;
+      try { paused = localStorage.getItem('aq-paused') === '1'; } catch (e) {}
+      const setPaused = p => {
+        paused = p; document.documentElement.classList.toggle('aq-paused', p);
+        if (btn) { btn.textContent = p ? '▶ Play fish' : '❚❚ Pause fish'; btn.setAttribute('aria-pressed', String(p)); }
+        try { localStorage.setItem('aq-paused', p ? '1' : '0'); } catch (e) {}
+      };
+      if (btn) btn.addEventListener('click', () => setPaused(!paused));
+      setPaused(paused);
       const fish = [];
       document.querySelectorAll('.tank svg').forEach((svg, t) => svg.querySelectorAll('.fish').forEach((g, i) => fish.push({
         svg, g, s: +g.dataset.scale || 1, v: +g.dataset.speed || 0.3,
@@ -395,7 +414,8 @@
       let last = performance.now();
       function frame(now) {
         const k = Math.min(3, (now - last) / 16.7); last = now;  // same speed on 60 Hz and 120 Hz screens
-        if (wide.matches && !calm.matches && !document.hidden) {
+        if (wide.matches && !paused && !document.hidden) {
+          const gentle = calm.matches;  // OS 'reduce motion': slower drift, no darting
           for (const f of fish) {
             f.turn = f.turn * Math.pow(0.97, k) + (Math.random() - 0.5) * 0.007 * k;
             f.a += f.turn * k;
@@ -406,11 +426,11 @@
               if (ctm) {
                 const pt = f.svg.createSVGPoint(); pt.x = mouse.x; pt.y = mouse.y;
                 const m = pt.matrixTransform(ctm.inverse()), dx = f.x - m.x, dy = f.y - m.y;
-                if (dx * dx + dy * dy < 70 * 70) { steer(f, Math.atan2(dy, dx), 0.6 * k); f.boost = 6; }
+                if (!gentle && dx * dx + dy * dy < 70 * 70) { steer(f, Math.atan2(dy, dx), 0.6 * k); f.boost = 6; }
               }
             }
             f.boost = 1 + (f.boost - 1) * Math.pow(0.95, k);  // quick flick, back to a slow cruise within ~1 s
-            const vx = Math.cos(f.a) * f.v * f.boost, vy = Math.sin(f.a) * f.v * f.boost * 0.45;
+            const sp = f.v * f.boost * (gentle ? 0.6 : 1), vx = Math.cos(f.a) * sp, vy = Math.sin(f.a) * sp * 0.45;
             f.x = Math.max(25, Math.min(215, f.x + vx * k));
             f.y = Math.max(170, Math.min(830, f.y + vy * k));
             if (Math.abs(vx) > 0.06) f.flip = vx > 0;
