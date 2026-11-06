@@ -415,7 +415,7 @@
       function frame(now) {
         const k = Math.min(3, (now - last) / 16.7); last = now;  // same speed on 60 Hz and 120 Hz screens
         if (wide.matches && !paused && !document.hidden) {
-          const gentle = calm.matches;  // OS 'reduce motion': slower drift, no darting
+          const gentle = calm.matches;  // OS 'reduce motion': slower cruising
           for (const f of fish) {
             f.turn = f.turn * Math.pow(0.97, k) + (Math.random() - 0.5) * 0.007 * k;
             f.a += f.turn * k;
@@ -426,11 +426,12 @@
               if (ctm) {
                 const pt = f.svg.createSVGPoint(); pt.x = mouse.x; pt.y = mouse.y;
                 const m = pt.matrixTransform(ctm.inverse()), dx = f.x - m.x, dy = f.y - m.y;
-                if (!gentle && dx * dx + dy * dy < 70 * 70) { steer(f, Math.atan2(dy, dx), 0.6 * k); f.boost = 6; }
+                if (dx * dx + dy * dy < 70 * 70) { steer(f, Math.atan2(dy, dx), 0.6 * k); f.boost = 6; }
               }
             }
             f.boost = 1 + (f.boost - 1) * Math.pow(0.95, k);  // quick flick, back to a slow cruise within ~1 s
-            const sp = f.v * f.boost * (gentle ? 0.6 : 1), vx = Math.cos(f.a) * sp, vy = Math.sin(f.a) * sp * 0.45;
+            const sp = f.v * ((gentle ? 0.6 : 1) + (f.boost - 1)),  // darts at full speed in every mode
+                vx = Math.cos(f.a) * sp, vy = Math.sin(f.a) * sp * 0.45;
             f.x = Math.max(25, Math.min(215, f.x + vx * k));
             f.y = Math.max(170, Math.min(830, f.y + vy * k));
             if (Math.abs(vx) > 0.06) f.flip = vx > 0;
