@@ -475,7 +475,8 @@ def main():
 
     print("2/5 rendering pages")
     idx = (ROOT / "index.html").read_text()
-    idx, _ = fill(idx, "updates", render_updates(data), "index.html")
+    if "<!-- BUILD:updates -->" in idx:
+        idx, _ = fill(idx, "updates", render_updates(data), "index.html")
     idx, _ = fill(idx, "projects", render_cards(data), "index.html")
     idx, _ = fill(idx, "publications", render_publications(data), "index.html")
     idx, _ = fill(idx, "inprep", render_in_prep(data), "index.html")
