@@ -9,7 +9,40 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/style.css?v=866dd6c76c" />
+  <link rel="stylesheet" href="assets/style.css?v=fde72802cf" />
+  <style>
+    /* Aquarium sides live with the page markup so a cached page and its aquarium styles always match. */
+    /* ── AQUARIUM SIDES (desktop only, decorative) ── */
+    .tank { display: none; }
+    @media (min-width: 1240px) {
+      .tank {
+        display: block; position: fixed; top: 60px; bottom: 0; z-index: 0; pointer-events: none;
+        width: min(300px, calc((100vw - 900px) / 2 - 20px));
+      }
+      .tank {
+        background: linear-gradient(to bottom, rgba(31,111,139,0) 0%, rgba(31,111,139,.05) 40%, rgba(31,111,139,.13) 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+        mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+      }
+      .tank svg { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; }
+      .tank-left { left: 10px; }
+      .tank-right { right: 10px; }
+      section, footer { position: relative; z-index: 1; }
+    }
+    .kelp { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 10s ease-in-out infinite alternate; }
+    .kelp.k2 { animation-duration: 13s; animation-delay: -3s; }
+    .kelp.k3 { animation-duration: 9s; animation-delay: -1s; }
+    @keyframes sway { from { transform: rotate(-1.8deg); } to { transform: rotate(1.8deg); } }
+    .bubble { animation: rise 18s linear infinite; opacity: 0; }
+    .bubble.b2 { animation-delay: -3s; animation-duration: 12s; }
+    .bubble.b3 { animation-delay: -9s; animation-duration: 22s; }
+    .bubble.b4 { animation-delay: -8s; animation-duration: 14s; }
+    @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: .8; } 90% { opacity: .5; } 100% { transform: translateY(-620px); opacity: 0; } }
+    .tail { transform-box: fill-box; transform-origin: 0% 50%; animation: wiggle 1.4s ease-in-out infinite alternate; }
+    @keyframes wiggle { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
+    @media (prefers-reduced-motion: reduce) { .kelp, .bubble, .tail { animation: none; } .bubble { opacity: .5; } }
+    @media print { .tank { display: none !important; } }
+  </style>
 </head>
 <body>
   <!--
@@ -343,38 +376,46 @@
     sections.forEach(s => observer.observe(s));
   </script>
   <script>
-    // Aquarium fish: wander around each side tank, face the way they swim, and dart away from the cursor.
+    // Aquarium fish: wander around each side tank, face the way they swim, flick away from the cursor.
     (() => {
       const wide = matchMedia('(min-width: 1240px)'), calm = matchMedia('(prefers-reduced-motion: reduce)');
       const fish = [];
-      document.querySelectorAll('.tank svg').forEach(svg => svg.querySelectorAll('.fish').forEach(g => fish.push({
-        svg, g, s: +g.dataset.scale || 1, v: +g.dataset.speed || 0.6,
-        x: 60 + Math.random() * 120, y: 220 + Math.random() * 520, a: Math.random() * 6.28, turn: 0, boost: 1, flip: false
+      document.querySelectorAll('.tank svg').forEach((svg, t) => svg.querySelectorAll('.fish').forEach((g, i) => fish.push({
+        svg, g, s: +g.dataset.scale || 1, v: +g.dataset.speed || 0.3,
+        x: 60 + ((i * 53 + t * 37) % 120), y: 260 + i * 180, a: (i + t) * 2.1, turn: 0, boost: 1, flip: (i + t) % 2 === 0
       })));
       if (!fish.length) return;
+      const place = f => f.g.setAttribute('transform',
+        `translate(${f.x.toFixed(1)} ${f.y.toFixed(1)}) rotate(${(f.tilt || 0).toFixed(1)}) scale(${f.flip ? -f.s : f.s} ${f.s})`);
+      fish.forEach(place);  // always place fish, even when motion is reduced
       let mouse = null;
       addEventListener('mousemove', e => { mouse = { x: e.clientX, y: e.clientY }; }, { passive: true });
       document.addEventListener('mouseleave', () => { mouse = null; });
-      const steer = (f, target, k) => { let d = target - f.a; d = Math.atan2(Math.sin(d), Math.cos(d)); f.a += d * k; };
-      function frame() {
-        if (wide.matches && !calm.matches) {
+      const steer = (f, target, k) => { let d = target - f.a; d = Math.atan2(Math.sin(d), Math.cos(d)); f.a += d * Math.min(1, k); };
+      let last = performance.now();
+      function frame(now) {
+        const k = Math.min(3, (now - last) / 16.7); last = now;  // same speed on 60 Hz and 120 Hz screens
+        if (wide.matches && !calm.matches && !document.hidden) {
           for (const f of fish) {
-            f.turn = f.turn * 0.97 + (Math.random() - 0.5) * 0.007;
-            f.a += f.turn;
-            if (f.x < 45) steer(f, 0, 0.08); else if (f.x > 195) steer(f, Math.PI, 0.08);
-            if (f.y < 200) steer(f, Math.PI / 2, 0.06); else if (f.y > 800) steer(f, -Math.PI / 2, 0.06);
+            f.turn = f.turn * Math.pow(0.97, k) + (Math.random() - 0.5) * 0.007 * k;
+            f.a += f.turn * k;
+            if (f.x < 45) steer(f, 0, 0.08 * k); else if (f.x > 195) steer(f, Math.PI, 0.08 * k);
+            if (f.y < 200) steer(f, Math.PI / 2, 0.06 * k); else if (f.y > 800) steer(f, -Math.PI / 2, 0.06 * k);
             if (mouse) {
-              const pt = f.svg.createSVGPoint(); pt.x = mouse.x; pt.y = mouse.y;
-              const m = pt.matrixTransform(f.svg.getScreenCTM().inverse());
-              const dx = f.x - m.x, dy = f.y - m.y;
-              if (dx * dx + dy * dy < 70 * 70) { steer(f, Math.atan2(dy, dx), 0.6); f.boost = 6; }
+              const ctm = f.svg.getScreenCTM();
+              if (ctm) {
+                const pt = f.svg.createSVGPoint(); pt.x = mouse.x; pt.y = mouse.y;
+                const m = pt.matrixTransform(ctm.inverse()), dx = f.x - m.x, dy = f.y - m.y;
+                if (dx * dx + dy * dy < 70 * 70) { steer(f, Math.atan2(dy, dx), 0.6 * k); f.boost = 6; }
+              }
             }
-            f.boost += (1 - f.boost) * 0.05;  // quick flick, back to a slow cruise within ~1 s
+            f.boost = 1 + (f.boost - 1) * Math.pow(0.95, k);  // quick flick, back to a slow cruise within ~1 s
             const vx = Math.cos(f.a) * f.v * f.boost, vy = Math.sin(f.a) * f.v * f.boost * 0.45;
-            f.x += vx; f.y += vy;
+            f.x = Math.max(25, Math.min(215, f.x + vx * k));
+            f.y = Math.max(170, Math.min(830, f.y + vy * k));
             if (Math.abs(vx) > 0.06) f.flip = vx > 0;
-            const tilt = Math.max(-8, Math.min(8, Math.atan2(vy, Math.abs(vx) + 0.001) * 30)) * (f.flip ? 1 : -1);
-            f.g.setAttribute('transform', `translate(${f.x.toFixed(1)} ${f.y.toFixed(1)}) rotate(${tilt.toFixed(1)}) scale(${f.flip ? -f.s : f.s} ${f.s})`);
+            f.tilt = Math.max(-8, Math.min(8, Math.atan2(vy, Math.abs(vx) + 0.001) * 30)) * (f.flip ? 1 : -1);
+            place(f);
           }
         }
         requestAnimationFrame(frame);
