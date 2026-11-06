@@ -328,6 +328,7 @@ section + section { border-top: 1px solid var(--border); }
 }
 
 .pub-authors { font-size: 0.82rem; color: var(--mid); }
+.writing-summary { font-size: 0.85rem; color: var(--mid); line-height: 1.6; }
 .pub-authors strong, .pf-team strong { color: var(--black); font-weight: 500; }
 
 /* ── ABOUT ── */

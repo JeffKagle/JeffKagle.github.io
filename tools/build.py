@@ -150,6 +150,16 @@ def validate(data):
             check_file(pub["file"], where, "file")
         elif not pub.get("url"):
             warn(f"{where}: no file or url — no download button")
+    for i, w in enumerate(data.get("writing", [])):
+        where = f"writing[{i}]"
+        for field in ("title", "venue", "summary", "file", "sha256"):
+            if not w.get(field):
+                err(f"{where}: missing '{field}'")
+        if w.get("date") and date_key(w) is None:
+            err(f"{where}: date '{w['date']}' not understood")
+        if w.get("file") and check_file(w["file"], where, "document") and w.get("sha256"):
+            if sha256(ROOT / w["file"]) != w["sha256"]:
+                err(f"{where}: DOCUMENT CHANGED — {w['file']} no longer matches the uploaded original")
     # oversized images slow the site down
     for img in (ROOT / "assets" / "img").rglob("*"):
         if img.is_file() and img.stat().st_size > MAX_IMAGE_KB * 1024:
@@ -219,6 +229,25 @@ def render_publications(data):
       </div>""")
     if not out:
         out.append('      <p class="empty-note">Publications coming soon.</p>')
+    return "\n".join(out)
+
+
+def render_writing(data):
+    """Non-technical writing samples: website only, never in the portfolio. Newest first; undated last."""
+    out = []
+    items = sorted(data.get("writing", []), key=lambda w: date_key(w) or (0, 0), reverse=True)
+    for w in items:
+        venue = " · ".join(esc(x) for x in (w["venue"], w.get("date")) if x)
+        out.append(f"""      <div class="pub-item">
+        <div class="pub-meta">
+          <p class="pub-venue">{venue}</p>
+          <h3 class="pub-title">{esc(w['title'])}</h3>
+          <p class="writing-summary">{esc(w['summary'])}</p>
+        </div>
+        <a href="{href(w['file'])}" class="btn" target="_blank" rel="noopener">↓ PDF</a>
+      </div>""")
+    if not out:
+        out.append('      <p class="empty-note">Coming soon.</p>')
     return "\n".join(out)
 
 
@@ -432,6 +461,7 @@ def main():
     idx, _ = fill(idx, "updates", render_updates(data), "index.html")
     idx, _ = fill(idx, "projects", render_cards(data), "index.html")
     idx, _ = fill(idx, "publications", render_publications(data), "index.html")
+    idx, _ = fill(idx, "writing", render_writing(data), "index.html")
     (ROOT / "index.html").write_text(idx)
 
     pf = (ROOT / "portfolio.html").read_text()

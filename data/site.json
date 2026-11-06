@@ -574,5 +574,31 @@
       "authors": "Nathaniel Berntson, Jeffrey Kagle, Joshua Berman, Josue Cervantes, Sebastian Kennedy, Gregory Burns, Diego A. Acosta-Félix, Alexander Schreiter, Ben Stites, Kenji Miyake",
       "file": "assets/docs/inline-3-engine.pdf"
     }
+  ],
+  "writing": [
+    {
+      "title": "The Good, The Bad, The Ugly, and the Satirical: An Exploration of Bad Movies",
+      "venue": "SAGES · High Art and Guilty Pleasures · Case Western Reserve University",
+      "date": "Jul 2022",
+      "summary": "Why some films become “so bad it’s good”: a look at Samurai Cop, VelociPastor, and The Disaster Artist, arguing that these films break cinematic norms so haphazardly that audiences enjoy the unintended comedy.",
+      "file": "assets/docs/essay-good-bad-movies.pdf",
+      "sha256": "a131613db0d2e23ca1e6b412d76950a2ee2bbf9a41bda9eb35db2f19573e4629"
+    },
+    {
+      "title": "Urban Environmentalism from the Cleanup of Lake Washington",
+      "venue": "SAGES First Seminar (FSSO 182) · Case Western Reserve University",
+      "date": "Nov 2021",
+      "summary": "How Seattle-area governments formed the Metro Council in 1958 to clean up a heavily polluted Lake Washington, and what the cleanup shows about local politics and community support in urban environmentalism.",
+      "file": "assets/docs/essay-lake-washington.pdf",
+      "sha256": "a4411e8725571115e3a1ac0837110343b294e4d8a2c82328c2d337a9b2f9b6a3"
+    },
+    {
+      "title": "Design Prototype Proposal: EMDR Therapy Mobile Application and Plushie System",
+      "venue": "SAGES · Case Western Reserve University",
+      "date": "",
+      "summary": "A design proposal for a youth-focused EMDR therapy system: a customizable phone app paired with a plush toy that delivers auditory, visual, and tactile stimulation under a clinician’s direction.",
+      "file": "assets/docs/essay-emdr-plushie.pdf",
+      "sha256": "afbf60956bd9eb433d09c7dfedc02e29bf8b1bdefa3b472c322b1a917d48027c"
+    }
   ]
 }
