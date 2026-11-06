@@ -153,21 +153,17 @@ section + section { border-top: 1px solid var(--border); }
   .tank-right { right: 10px; }
   section, footer { position: relative; z-index: 1; }
 }
-.kelp { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 7s ease-in-out infinite alternate; }
-.kelp.k2 { animation-duration: 9s; animation-delay: -3s; }
-.kelp.k3 { animation-duration: 6s; animation-delay: -1s; }
-@keyframes sway { from { transform: rotate(-3.5deg); } to { transform: rotate(3.5deg); } }
-.bubble { animation: rise 10s linear infinite; opacity: 0; }
+.kelp { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 10s ease-in-out infinite alternate; }
+.kelp.k2 { animation-duration: 13s; animation-delay: -3s; }
+.kelp.k3 { animation-duration: 9s; animation-delay: -1s; }
+@keyframes sway { from { transform: rotate(-1.8deg); } to { transform: rotate(1.8deg); } }
+.bubble { animation: rise 18s linear infinite; opacity: 0; }
 .bubble.b2 { animation-delay: -3s; animation-duration: 12s; }
-.bubble.b3 { animation-delay: -6s; animation-duration: 9s; }
+.bubble.b3 { animation-delay: -9s; animation-duration: 22s; }
 .bubble.b4 { animation-delay: -8s; animation-duration: 14s; }
 @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: .8; } 90% { opacity: .5; } 100% { transform: translateY(-620px); opacity: 0; } }
-.fish { animation: swim 34s linear infinite; }
-.fish.f2 { animation-duration: 46s; animation-delay: -20s; }
-@keyframes swim { from { transform: translateX(300px); } to { transform: translateX(-60px); } }
-.fish.rev { animation-name: swim-rev; }
-@keyframes swim-rev { from { transform: translateX(-60px) scaleX(-1); } to { transform: translateX(300px) scaleX(-1); } }
-.fish g, .fish { transform-box: fill-box; }
+.tail { transform-box: fill-box; transform-origin: 0% 50%; animation: wiggle 1.4s ease-in-out infinite alternate; }
+@keyframes wiggle { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
 
 /* ── UPDATES / EYEBROW LABELS ── */
 .updates-label {
@@ -535,7 +531,7 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kelp, .bubble, .fish { animation: none; }
+  .kelp, .bubble, .tail { animation: none; }
   .bubble { opacity: .5; }
   html { scroll-behavior: auto; }
   #home { animation: none; }

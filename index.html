@@ -9,7 +9,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="assets/style.css?v=0ca383be8e" />
+  <link rel="stylesheet" href="assets/style.css?v=866dd6c76c" />
 </head>
 <body>
   <!--
@@ -27,14 +27,14 @@
     </ul>
   </nav>
 
-  <!-- decorative aquarium sides (desktop only) -->
+  <!-- decorative aquarium sides (desktop only; fish behaviour in the script at the end) -->
   <div class="tank tank-left" aria-hidden="true" hidden><svg viewBox="0 0 240 900" preserveAspectRatio="xMidYMax meet">
     <path class="kelp k1" d="M40,900 C66,753.0 14,606.0 50.4,480" stroke="#3E7C4F" stroke-width="9" fill="none" stroke-linecap="round"/><path class="kelp k2" d="M70,900 C50,795.0 90,690.0 62.0,600" stroke="#5E9C6C" stroke-width="7" fill="none" stroke-linecap="round"/><path class="kelp k3" d="M200,900 C222,774.0 178,648.0 208.8,540" stroke="#2F6340" stroke-width="8" fill="none" stroke-linecap="round"/>
-    <circle class="bubble b1" cx="130" cy="880" r="5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b2" cx="138" cy="870" r="3.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b3" cx="124" cy="876" r="4.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b4" cx="134" cy="880" r="2.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><g class="fish"><g transform="translate(0,430) scale(1)"><ellipse cx="0" cy="0" rx="20" ry="10" fill="#1F6F8B"/><polygon points="17,0 31,-9 31,9" fill="#1F6F8B"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g></g><g class="fish f2"><g transform="translate(0,610) scale(0.7)"><ellipse cx="0" cy="0" rx="20" ry="10" fill="#E07A5F"/><polygon points="17,0 31,-9 31,9" fill="#E07A5F"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g></g><path d="M0,872 Q60,858 120,868 T240,862 V900 H0 Z" fill="#EFE6D2"/><ellipse cx="70" cy="874" rx="14" ry="7" fill="#D8CFBD"/><ellipse cx="190" cy="870" rx="10" ry="5" fill="#D8CFBD"/>
+    <circle class="bubble b1" cx="130" cy="880" r="5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b3" cx="124" cy="876" r="4.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><g class="fish" data-scale="1" data-speed="0.26"><polygon class="tail" points="15,0 31,-9 31,9" fill="#1F6F8B"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#1F6F8B"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g><g class="fish" data-scale="0.7" data-speed="0.32"><polygon class="tail" points="15,0 31,-9 31,9" fill="#E07A5F"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#E07A5F"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g><g class="fish" data-scale="0.6" data-speed="0.28"><polygon class="tail" points="15,0 31,-9 31,9" fill="#5E9C6C"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#5E9C6C"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g><path d="M0,872 Q60,858 120,868 T240,862 V900 H0 Z" fill="#EFE6D2"/><ellipse cx="70" cy="874" rx="14" ry="7" fill="#D8CFBD"/><ellipse cx="190" cy="870" rx="10" ry="5" fill="#D8CFBD"/>
   </svg></div>
   <div class="tank tank-right" aria-hidden="true" hidden><svg viewBox="0 0 240 900" preserveAspectRatio="xMidYMax meet">
     <path class="kelp k2" d="M50,900 C28,781.0 72,662.0 41.2,560" stroke="#5E9C6C" stroke-width="8" fill="none" stroke-linecap="round"/><path class="kelp k1" d="M170,900 C194,742.5 146,585.0 179.6,450" stroke="#3E7C4F" stroke-width="9" fill="none" stroke-linecap="round"/><path class="kelp k3" d="M205,900 C187,802.0 223,704.0 197.8,620" stroke="#2F6340" stroke-width="7" fill="none" stroke-linecap="round"/>
-    <circle class="bubble b1" cx="110" cy="880" r="5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b2" cx="118" cy="870" r="3.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b3" cx="104" cy="876" r="4.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b4" cx="114" cy="880" r="2.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><g class="fish rev"><g transform="translate(0,380) scale(1.1)"><ellipse cx="0" cy="0" rx="20" ry="10" fill="#1F6F8B"/><polygon points="17,0 31,-9 31,9" fill="#1F6F8B"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/><path d="M-6,-7 v14 M2,-8 v16" stroke="#fff" stroke-width="1.6" opacity=".8"/><circle cx="-2" cy="-10" r="1.6" fill="#1F6F8B"/><path d="M-2,-9 v-4" stroke="#1F6F8B" stroke-width="1.4"/></g></g><g class="fish rev f2"><g transform="translate(0,560) scale(0.75)"><ellipse cx="0" cy="0" rx="20" ry="10" fill="#3E7C4F"/><polygon points="17,0 31,-9 31,9" fill="#3E7C4F"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g></g><path d="M0,872 Q60,858 120,868 T240,862 V900 H0 Z" fill="#EFE6D2"/><ellipse cx="70" cy="874" rx="14" ry="7" fill="#D8CFBD"/><ellipse cx="190" cy="870" rx="10" ry="5" fill="#D8CFBD"/>
+    <circle class="bubble b1" cx="110" cy="880" r="5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><circle class="bubble b3" cx="104" cy="876" r="4.5" fill="none" stroke="#1F6F8B" stroke-width="1.5"/><g class="fish" data-scale="1.1" data-speed="0.24"><polygon class="tail" points="15,0 31,-9 31,9" fill="#1F6F8B"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#1F6F8B"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/><path d="M-6,-7 v14 M2,-8 v16" stroke="#fff" stroke-width="1.6" opacity=".8"/><circle cx="-2" cy="-10" r="1.6" fill="#1F6F8B"/><path d="M-2,-9 v-4" stroke="#1F6F8B" stroke-width="1.4"/></g><g class="fish" data-scale="0.75" data-speed="0.3"><polygon class="tail" points="15,0 31,-9 31,9" fill="#3E7C4F"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#3E7C4F"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g><g class="fish" data-scale="0.6" data-speed="0.32"><polygon class="tail" points="15,0 31,-9 31,9" fill="#E07A5F"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="#E07A5F"/><circle cx="-11" cy="-2.5" r="2.4" fill="#fff"/><circle cx="-11.5" cy="-2.5" r="1.1" fill="#1A1A1A"/></g><path d="M0,872 Q60,858 120,868 T240,862 V900 H0 Z" fill="#EFE6D2"/><ellipse cx="70" cy="874" rx="14" ry="7" fill="#D8CFBD"/><ellipse cx="190" cy="870" rx="10" ry="5" fill="#D8CFBD"/>
   </svg></div>
 
   <!-- HERO -->
@@ -341,6 +341,46 @@
       });
     }, { rootMargin: '-40% 0px -55% 0px' });
     sections.forEach(s => observer.observe(s));
+  </script>
+  <script>
+    // Aquarium fish: wander around each side tank, face the way they swim, and dart away from the cursor.
+    (() => {
+      const wide = matchMedia('(min-width: 1240px)'), calm = matchMedia('(prefers-reduced-motion: reduce)');
+      const fish = [];
+      document.querySelectorAll('.tank svg').forEach(svg => svg.querySelectorAll('.fish').forEach(g => fish.push({
+        svg, g, s: +g.dataset.scale || 1, v: +g.dataset.speed || 0.6,
+        x: 60 + Math.random() * 120, y: 220 + Math.random() * 520, a: Math.random() * 6.28, turn: 0, boost: 1, flip: false
+      })));
+      if (!fish.length) return;
+      let mouse = null;
+      addEventListener('mousemove', e => { mouse = { x: e.clientX, y: e.clientY }; }, { passive: true });
+      document.addEventListener('mouseleave', () => { mouse = null; });
+      const steer = (f, target, k) => { let d = target - f.a; d = Math.atan2(Math.sin(d), Math.cos(d)); f.a += d * k; };
+      function frame() {
+        if (wide.matches && !calm.matches) {
+          for (const f of fish) {
+            f.turn = f.turn * 0.97 + (Math.random() - 0.5) * 0.007;
+            f.a += f.turn;
+            if (f.x < 45) steer(f, 0, 0.08); else if (f.x > 195) steer(f, Math.PI, 0.08);
+            if (f.y < 200) steer(f, Math.PI / 2, 0.06); else if (f.y > 800) steer(f, -Math.PI / 2, 0.06);
+            if (mouse) {
+              const pt = f.svg.createSVGPoint(); pt.x = mouse.x; pt.y = mouse.y;
+              const m = pt.matrixTransform(f.svg.getScreenCTM().inverse());
+              const dx = f.x - m.x, dy = f.y - m.y;
+              if (dx * dx + dy * dy < 70 * 70) { steer(f, Math.atan2(dy, dx), 0.6); f.boost = 6; }
+            }
+            f.boost += (1 - f.boost) * 0.05;  // quick flick, back to a slow cruise within ~1 s
+            const vx = Math.cos(f.a) * f.v * f.boost, vy = Math.sin(f.a) * f.v * f.boost * 0.45;
+            f.x += vx; f.y += vy;
+            if (Math.abs(vx) > 0.06) f.flip = vx > 0;
+            const tilt = Math.max(-8, Math.min(8, Math.atan2(vy, Math.abs(vx) + 0.001) * 30)) * (f.flip ? 1 : -1);
+            f.g.setAttribute('transform', `translate(${f.x.toFixed(1)} ${f.y.toFixed(1)}) rotate(${tilt.toFixed(1)}) scale(${f.flip ? -f.s : f.s} ${f.s})`);
+          }
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
   </script>
 </body>
 </html>
