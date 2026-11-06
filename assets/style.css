@@ -328,6 +328,10 @@ section + section { border-top: 1px solid var(--border); }
 }
 
 .pub-authors { font-size: 0.82rem; color: var(--mid); }
+.prep-list { display: flex; flex-direction: column; gap: 0; border-left: 2px solid var(--accent-light); }
+.prep-item { padding: 14px 0 14px 22px; }
+.prep-item + .prep-item { border-top: 1px solid var(--border); }
+.prep-status { font-size: 0.78rem; color: var(--accent); font-style: italic; margin-top: 4px; }
 .writing-summary { font-size: 0.85rem; color: var(--mid); line-height: 1.6; }
 .pub-authors strong, .pf-team strong { color: var(--black); font-weight: 500; }
 

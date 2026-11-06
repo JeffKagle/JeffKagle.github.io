@@ -600,5 +600,27 @@
       "file": "assets/docs/essay-emdr-plushie.pdf",
       "sha256": "afbf60956bd9eb433d09c7dfedc02e29bf8b1bdefa3b472c322b1a917d48027c"
     }
+  ],
+  "in_preparation": [
+    {
+      "authors": "Jeffrey Kagle, Douglas Palumbo, Robert Shepherd",
+      "title": "Redox Cooled Acoustic Damping Enclosure for an Embodied Energy Redox Flow Battery Robot",
+      "status": "In preparation."
+    },
+    {
+      "authors": "Douglas Palumbo, Jeffrey Kagle, Robert Shepherd",
+      "title": "Zinc-Iodide Redox Flow Battery Tendon-Driven Embodied Energy Swimming Robot",
+      "status": "In preparation."
+    },
+    {
+      "authors": "Jeffrey Kagle, Isira Vinthage, …, Angela Dixon",
+      "title": "Design of Affordable Benchtop Cell-Culture Incubator Using 3-D Printable Housing and Basic Electronics for Lab-on-Chip Devices Integrating Respiratory-Like Airflow",
+      "status": "In preparation with Nathalie Heuzé-Vourc’h (University of Tours); full author list to be finalized."
+    },
+    {
+      "authors": "",
+      "title": "Airflow testing of particle deposition in locally harvested upper nasal epithelial cells (working title)",
+      "status": "In preparation with Nathalie Heuzé-Vourc’h (University of Tours) and additional co-authors; author list to be finalized."
+    }
   ]
 }

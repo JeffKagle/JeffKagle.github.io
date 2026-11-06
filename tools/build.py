@@ -150,6 +150,9 @@ def validate(data):
             check_file(pub["file"], where, "file")
         elif not pub.get("url"):
             warn(f"{where}: no file or url — no download button")
+    for i, m in enumerate(data.get("in_preparation", [])):
+        if not m.get("title"):
+            err(f"in_preparation[{i}]: missing 'title'")
     for i, w in enumerate(data.get("writing", [])):
         where = f"writing[{i}]"
         for field in ("title", "venue", "summary", "file", "sha256"):
@@ -248,6 +251,20 @@ def render_writing(data):
       </div>""")
     if not out:
         out.append('      <p class="empty-note">Coming soon.</p>')
+    return "\n".join(out)
+
+
+def render_in_prep(data):
+    """Manuscripts in preparation: title, authors, status only (no summaries, by owner's request)."""
+    owner = data.get("owner", "")
+    out = []
+    for m in data.get("in_preparation", []):
+        authors = f'<p class="pub-authors">{bold_owner(m["authors"], owner)}</p>' if m.get("authors") else ""
+        out.append(f"""      <div class="prep-item">
+        <h3 class="pub-title">{esc(m['title'])}</h3>
+        {authors}
+        <p class="prep-status">{esc(m.get('status') or 'In preparation.')}</p>
+      </div>""")
     return "\n".join(out)
 
 
@@ -461,6 +478,7 @@ def main():
     idx, _ = fill(idx, "updates", render_updates(data), "index.html")
     idx, _ = fill(idx, "projects", render_cards(data), "index.html")
     idx, _ = fill(idx, "publications", render_publications(data), "index.html")
+    idx, _ = fill(idx, "inprep", render_in_prep(data), "index.html")
     idx, _ = fill(idx, "writing", render_writing(data), "index.html")
     (ROOT / "index.html").write_text(idx)
 
