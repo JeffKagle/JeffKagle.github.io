@@ -492,6 +492,14 @@ def main():
         pf, _ = fill(pf, "updated", f'    <p class="pf-updated no-print">Last updated {stamp}</p>', "portfolio.html")
     (ROOT / "portfolio.html").write_text(pf)
 
+    # cache-bust the stylesheet so browsers never pair a new page with an old cached stylesheet
+    ver = sha256(ROOT / "assets" / "style.css")[:10]
+    for pg in PAGES:
+        t = (ROOT / pg).read_text()
+        t2 = re.sub(r'href="assets/style\.css(\?v=[0-9a-f]+)?"', f'href="assets/style.css?v={ver}"', t)
+        if t2 != t:
+            (ROOT / pg).write_text(t2)
+
     print("3/5 checking local links")
     static_links()
 
