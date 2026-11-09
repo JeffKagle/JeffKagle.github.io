@@ -77,7 +77,9 @@
             "caption": "Projected annual cash flow and total cash over the first three years of production.",
             "source_page": 13
           }
-        ]
+        ],
+        "rank": 6,
+        "role": "Project manager; led the fluid mechanics and thermodynamics of engine cooling and contributed to every section."
       }
     },
     {
@@ -171,7 +173,9 @@
             ]
           }
         ],
-        "results_heading": "Key contributions"
+        "results_heading": "Key contributions",
+        "rank": 4,
+        "role": "Sole author."
       }
     },
     {
@@ -261,7 +265,8 @@
             "source": "poster",
             "source_page": 1
           }
-        ]
+        ],
+        "rank": 1
       }
     },
     {
@@ -291,7 +296,8 @@
             "source_page": 6,
             "wide": true
           }
-        ]
+        ],
+        "rank": 7
       },
       "extra_documents": [
         {
@@ -372,7 +378,8 @@
             "caption": "Final 3D-printed housing holding the solenoid and beam in series.",
             "source_page": 5
           }
-        ]
+        ],
+        "rank": 2
       }
     },
     {
@@ -446,7 +453,8 @@
             "caption": "Custom 3D-printed housings for the solenoid, ERM motor, skin-stretch end effector, and DC motor.",
             "source_page": 7
           }
-        ]
+        ],
+        "rank": 3
       }
     },
     {
@@ -520,7 +528,8 @@
             "caption": "Additional product renders.",
             "source_page": 36
           }
-        ]
+        ],
+        "rank": 5
       }
     }
   ],
@@ -635,5 +644,30 @@
       "src": "assets/img/hasel-rotary-actuator/motor-animation.gif",
       "caption": "Four liquid Peano-HASEL actuators fire in sequence to turn a central shaft. At right, one actuator's pouches zip, shorten, and recover. Schematic animation (AI-generated), not to scale."
     }
-  ]
+  ],
+  "current_research": {
+    "intro": "Ongoing work at Cornell's Organic Robotics Lab, plus manuscripts from my undergraduate research at Case Western Reserve University building devices for biology experiments, now in preparation with the University of Tours. Details are held back until publication.",
+    "areas": [
+      {
+        "icon": "sound",
+        "title": "Underwater Acoustics",
+        "text": "How soft robotic swimmers produce and interact with sound underwater, and the materials that shape it."
+      },
+      {
+        "icon": "fish",
+        "title": "Soft Biomimetic Robotics",
+        "text": "Fish-inspired robots with compliant bodies that move through water the way animals do, aiming for efficient, adaptable swimming."
+      },
+      {
+        "icon": "energy",
+        "title": "Embodied Energy",
+        "text": "Building energy storage into a robot's body, such as redox-flow battery systems that serve more than one role, instead of carrying it as a separate payload."
+      },
+      {
+        "icon": "air",
+        "title": "Respiratory Lab-on-Chip",
+        "text": "Low-cost benchtop tools that bring breathing-like airflow to cell culture, for studying how inhaled particles reach the airway."
+      }
+    ]
+  }
 }

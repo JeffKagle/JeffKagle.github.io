@@ -28,6 +28,9 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import portfolio_scene  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "site.json"
 PAGES = ["index.html", "portfolio.html"]
@@ -304,20 +307,80 @@ def render_figure(f, n):
             f'<figcaption><b>Fig. {n}.</b> {cap}</figcaption></figure>')
 
 
+def portfolio_projects(data):
+    """Projects in the portfolio, ordered by portfolio.rank (then newest first)."""
+    items = [p for p in sorted_projects(data) if (p.get("portfolio") or {}).get("include")]
+    return sorted(items, key=lambda p: (p["portfolio"].get("rank", 999)))
+
+
+def render_portfolio_cover(data):
+    items = portfolio_projects(data)
+    nums = {p["id"]: f"{n:02d}" for n, p in enumerate(items, 1)}
+    missing = portfolio_scene.scene_ids() - set(nums)
+    if missing:
+        err(f"portfolio cover scene points at projects not in the portfolio: {sorted(missing)}")
+        return ""
+    rows = "".join(f'<li><a href="#{esc(p["id"])}"><span class="pfc-cn">{n:02d}</span><span class="pfc-ct">{esc(p["title"])}</span>'
+                   f'<span class="pfc-cm">{esc(p["tag"])} · {esc(p["date"])}</span></a></li>' for n, p in enumerate(items, 1))
+    if data.get("current_research"):
+        rows = ('<li><a href="#current-research"><span class="pfc-cn">Now</span><span class="pfc-ct">Current Research</span>'
+                '<span class="pfc-cm">In preparation</span></a></li>') + rows
+    legend = ('<div class="pfc-legend"><span><i class="lg-ch"></i>Chapter (click to jump; ordered by research focus)</span>'
+              '<span><i class="lg-now"></i>In development (see Current Research)</span></div>')
+    return (f'    <figure class="pfc-scene">{portfolio_scene.cover_svg(nums)}</figure>\n    {legend}\n'
+            f'    <ol class="pfc-contents pfc-contents-mobile">{rows}</ol>')
+
+
+ICONS = {
+    "sound": '<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a8.5 8.5 0 0 1 0 12"/>',
+    "fish": '<path d="M3 12c3-5 9-5 13 0-4 5-10 5-13 0z"/><path d="M16 12l5-4v8z"/><circle cx="7.5" cy="11" r=".9" fill="currentColor"/>',
+    "energy": '<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M19 10h2v4h-2"/><path d="M11.5 8.5l-2.5 4h3l-1 3 3-4.5h-3z"/>',
+    "air": '<path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h8"/>',
+}
+
+
+def render_portfolio_current(data):
+    """'Current Research': broad focus areas + manuscripts in preparation (no methods or results)."""
+    cr = data.get("current_research") or {}
+    if not cr:
+        return ""
+    owner = data.get("owner", "")
+    cards = "".join(
+        f'<div class="pf-area"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+        f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{ICONS.get(a.get("icon"), "")}</svg>'
+        f'<h3>{esc(a["title"])}</h3><p>{esc(a["text"])}</p></div>' for a in cr.get("areas", []))
+    preps = "".join(
+        f'<div class="prep-item"><h4 class="pub-title">{esc(m["title"])}</h4>'
+        + (f'<p class="pub-authors">{bold_owner(m["authors"], owner)}</p>' if m.get("authors") else "")
+        + f'<p class="prep-status">{esc(m.get("status") or "In preparation.")}</p></div>'
+        for m in data.get("in_preparation", []))
+    return f"""  <section class="pf-chapter pf-now" id="current-research">
+    <header class="pf-ch-head"><span class="pf-ch-num">Now</span><div><p class="pf-meta">In progress · 2026</p><h2 class="pf-title">Current Research</h2><div class="pf-ch-rule"></div><p class="pf-context">{esc(cr.get("intro", ""))}</p></div></header>
+    <div class="pf-areas">{cards}</div>
+    <h3 class="pf-subhead">Manuscripts in preparation</h3>
+    <div class="prep-list">{preps}</div>
+  </section>"""
+
+
 def render_portfolio(data):
     owner = data.get("owner", "")
     site = data.get("site_url", "").rstrip("/")
     out = []
-    for p in sorted_projects(data):
-        pf = p.get("portfolio") or {}
-        if not pf.get("include"):
-            continue
-        meta = " · ".join(esc(x) for x in (p["tag"], p["date"], p.get("context")) if x)
-        parts = [f'    <p class="pf-meta">{meta}</p>',
-                 f'    <h2 class="pf-title">{esc(p["title"])}</h2>']
+    for n, p in enumerate(portfolio_projects(data), 1):
+        pf = p["portfolio"]
+        meta = " · ".join(esc(x) for x in (p["tag"], p["date"]) if x)
+        head = [f'<p class="pf-meta">{meta}</p>', f'<h2 class="pf-title">{esc(p["title"])}</h2>', '<div class="pf-ch-rule"></div>']
+        if p.get("context"):
+            head.append(f'<p class="pf-context">{esc(p["context"])}</p>')
         if p.get("team"):
-            parts.append(f'    <p class="pf-team">{bold_owner(p["team"], owner)}</p>')
-        parts.append(f'    <p class="pf-overview">{esc(pf["overview"])}</p>')
+            head.append(f'<p class="pf-team">{bold_owner(p["team"], owner)}</p>')
+        if pf.get("role"):
+            head.append(f'<p class="pf-role"><b>My role:</b> {esc(pf["role"])}</p>')
+        th = portfolio_scene.thumb(p["id"])
+        thumb_html = (f'<aside class="pf-ch-thumb">{th[0]}<p class="pf-thumb-k">{esc(th[1])}</p><p class="pf-thumb-t">{esc(th[2])}</p></aside>'
+                      if th else "")
+        parts = [f'    <header class="pf-ch-head{" has-thumb" if th else ""}"><span class="pf-ch-num">{n:02d}</span><div>{"".join(head)}</div>{thumb_html}</header>',
+                 f'    <p class="pf-overview">{esc(pf["overview"])}</p>']
         docs = all_docs(p)
         if docs:
             links = "".join(f'<a class="btn" href="{href(site + "/" + d["file"])}" target="_blank" rel="noopener">'
@@ -326,15 +389,15 @@ def render_portfolio(data):
         if pf.get("metrics"):
             tiles = "".join(f'<div class="pf-metric"><span class="pf-metric-value">{esc(m["value"])}</span>'
                             f'<span class="pf-metric-label">{esc(m["label"])}</span></div>' for m in pf["metrics"])
-            parts.append(f'    <div class="pf-metrics">{tiles}</div>')
+            parts.append(f'    <div class="pf-metrics" style="grid-template-columns: repeat({len(pf["metrics"])}, minmax(0, 1fr));">{tiles}</div>')
         figs = pf.get("figures", [])
-        if figs:  # lead figure, full width, right after the headline numbers
+        if figs:
             parts.append(f'    <div class="pf-figures lead">{render_figure(figs[0], 1)}</div>')
         if pf.get("results"):
             items = "".join(f"<li>{rich(r)}</li>" for r in pf["results"])
             heading = esc(pf.get("results_heading") or "Key results")
-            parts.append(f'    <h3 class="pf-subhead">{heading}</h3>\n    <ul class="pf-results">{items}</ul>')
-        for sec in pf.get("sections", []):  # written write-ups, e.g. a model derivation
+            parts.append(f'    <h3 class="pf-subhead">{heading}</h3>\n    <ol class="pf-results">{items}</ol>')
+        for sec in pf.get("sections", []):
             parts.append(f'    <h3 class="pf-subhead">{esc(sec["heading"])}</h3>')
             for blk in sec.get("blocks", []):
                 if "text" in blk:
@@ -343,10 +406,10 @@ def render_portfolio(data):
                     parts.append(f'    <div class="pf-eq"><img src="{href(blk["equation"])}" alt="{esc(blk.get("alt", "equation"))}" /></div>')
         if len(figs) > 1:
             rest = "".join(render_figure(f, i + 2) for i, f in enumerate(figs[1:]))
-            parts.append(f'    <div class="pf-figures">{rest}</div>')
-        out.append(f'  <section class="pf-item" id="{esc(p["id"])}">\n' + "\n".join(parts) + "\n  </section>")
+            parts.append(f'    <h3 class="pf-subhead">Figures</h3>\n    <div class="pf-figures">{rest}</div>')
+        out.append(f'  <section class="pf-chapter" id="{esc(p["id"])}">\n' + "\n".join(parts) + "\n  </section>")
     if not out:
-        out.append('  <section class="pf-item"><p class="empty-note">Portfolio entries coming soon.</p></section>')
+        out.append('  <section class="pf-chapter"><p class="empty-note">Portfolio entries coming soon.</p></section>')
     return "\n\n".join(out)
 
 
@@ -418,6 +481,8 @@ def pdf_inputs_hash():
     h = hashlib.sha256()
     h.update((ROOT / "portfolio.html").read_bytes())
     h.update((ROOT / "assets" / "style.css").read_bytes())
+    if (ROOT / "assets" / "portfolio.css").exists():
+        h.update((ROOT / "assets" / "portfolio.css").read_bytes())
     for src in sorted(set(re.findall(r'src="([^"]+)"', (ROOT / "portfolio.html").read_text()))):
         f = ROOT / unquote(html.unescape(src))
         if f.is_file():
@@ -467,7 +532,12 @@ def browser_checks(make_pdf, force_pdf):
                     page.goto(f"{base}/portfolio.html", wait_until="networkidle")
                     page.evaluate(LOAD_ALL_IMAGES)
                     page.emulate_media(media="print")
-                    page.pdf(path=str(PDF), print_background=True, prefer_css_page_size=True)
+                    footer = ('<div style="width:100%;font:7.5px Helvetica,Arial,sans-serif;color:#8A9199;'
+                              'padding:0 0.6in;display:flex;justify-content:space-between;">'
+                              '<span>Jeffrey Kagle · Portfolio · jeffreykagle.com</span>'
+                              '<span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>')
+                    page.pdf(path=str(PDF), print_background=True, prefer_css_page_size=True,
+                             display_header_footer=True, header_template="<div></div>", footer_template=footer)
                     page.close()
                     PDF_HASH.write_text(digest + "\n")
                     print(f"  wrote {PDF.relative_to(ROOT)}")
@@ -515,6 +585,8 @@ def main():
     (ROOT / "index.html").write_text(idx)
 
     pf = (ROOT / "portfolio.html").read_text()
+    pf, _ = fill(pf, "cover", render_portfolio_cover(data), "portfolio.html")
+    pf, _ = fill(pf, "current", render_portfolio_current(data), "portfolio.html")
     pf, old_body = fill(pf, "portfolio", render_portfolio(data), "portfolio.html")
     new_body = re.search(r"<!-- BUILD:portfolio -->\n(.*?)<!-- /BUILD:portfolio -->", pf, re.S)
     changed = old_body is None or new_body is None or old_body != new_body.group(1)
@@ -524,10 +596,12 @@ def main():
     (ROOT / "portfolio.html").write_text(pf)
 
     # cache-bust the stylesheet so browsers never pair a new page with an old cached stylesheet
-    ver = sha256(ROOT / "assets" / "style.css")[:10]
     for pg in PAGES:
-        t = (ROOT / pg).read_text()
-        t2 = re.sub(r'href="assets/style\.css(\?v=[0-9a-f]+)?"', f'href="assets/style.css?v={ver}"', t)
+        t = t2 = (ROOT / pg).read_text()
+        for css in ("style", "portfolio"):
+            if (ROOT / "assets" / f"{css}.css").exists():
+                ver = sha256(ROOT / "assets" / f"{css}.css")[:10]
+                t2 = re.sub(rf'href="assets/{css}\.css(\?v=[0-9a-f]+)?"', f'href="assets/{css}.css?v={ver}"', t2)
         if t2 != t:
             (ROOT / pg).write_text(t2)
 

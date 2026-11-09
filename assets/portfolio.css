@@ -1,0 +1,174 @@
+/* Portfolio page + PDF (loaded after style.css; only portfolio.html uses it) */
+
+.pf-page { --sea-soft: #CFE4EB; --tile: linear-gradient(135deg, #EEF6F8 0%, #F1F7F1 100%); }
+
+/* ── COVER ── */
+.pfc { max-width: 980px; margin: 0 auto; padding: 120px 48px 40px; }
+.pfc-bar { height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--seaweed)); margin-bottom: 28px; width: 120px; }
+.pfc-eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--seaweed); margin-bottom: 6px; }
+.pfc-name { font-family: var(--serif); font-weight: 700; font-size: clamp(2.8rem, 6vw, 4.2rem); line-height: 1.05; margin-bottom: 10px; }
+.pfc-fields { font-size: 1.05rem; font-weight: 500; color: var(--accent); margin-bottom: 14px; }
+.pfc-statement { font-size: 1.02rem; line-height: 1.7; color: #374151; max-width: 680px; margin-bottom: 12px; }
+.pfc-contact { font-size: 0.88rem; color: var(--mid); margin-bottom: 24px; }
+.pfc-contact a { color: var(--accent); text-decoration: none; }
+.pfc-contact span { margin: 0 4px; color: #C4C9CF; }
+.pfc .pf-updated { margin: -8px 0 28px; }
+
+.pfc-collage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 8px 0 32px; }
+.pfc-tile { position: relative; display: block; border-radius: 10px; overflow: hidden; background: #F3F6F8; aspect-ratio: 16 / 10; }
+.pfc-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+.pfc-tile:hover img { transform: scale(1.03); }
+.pfc-badge { position: absolute; left: 10px; bottom: 10px; font: 700 0.8rem var(--serif); color: #fff; background: rgba(31,111,139,.92); border-radius: 999px; padding: 3px 10px; }
+
+.pfc-contents { list-style: none; border-top: 1px solid var(--border); }
+.pfc-contents li { border-bottom: 1px solid var(--border); }
+.pfc-contents a { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: baseline; padding: 10px 2px; text-decoration: none; color: var(--black); }
+.pfc-contents a:hover .pfc-ct { color: var(--accent); }
+.pfc-cn { font: 700 1.05rem var(--serif); color: var(--seaweed); }
+.pfc-ct { font: 700 1.02rem var(--serif); }
+.pfc-cm { font-size: 0.8rem; color: var(--mid); white-space: nowrap; }
+
+.pfc-fields { font-size: 1.3rem; }
+.pfc-affil { font-size: 0.9rem; color: var(--mid); margin-bottom: 6px; }
+.pfc-scene { margin: 6px 0 10px; }
+.pfc-scene-art { width: 100%; height: auto; display: block; }
+.pfc-scene a { cursor: pointer; }
+.pfc-scene a:hover text { text-decoration: underline; }
+.pfc-legend { display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 0.85rem; color: #4B5563; margin-bottom: 8px; }
+.pfc-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.pfc-legend i { width: 16px; height: 16px; border-radius: 50%; display: inline-block; }
+.lg-ch { background: var(--accent); }
+.lg-now { border: 2px dashed var(--seaweed); }
+.pfc-contents-mobile { display: none; }
+
+/* chapter header thumbnail */
+.pf-ch-head.has-thumb { grid-template-columns: auto 1fr 230px; }
+.pf-ch-thumb { background: #F2F8FA; border-radius: 12px; padding: 10px 12px 12px; text-align: center; align-self: start; }
+.pf-thumb-art { width: 100%; height: auto; display: block; }
+.pf-thumb-k { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em; color: var(--seaweed); margin-top: 6px; }
+.pf-thumb-t { font-size: 0.78rem; color: #4B5563; line-height: 1.35; margin-top: 2px; }
+
+/* ── CHAPTERS ── */
+.pf-chapter { max-width: 980px; margin: 0 auto; padding: 72px 48px; border-top: 1px solid var(--border); }
+.pf-ch-head { display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: start; margin-bottom: 20px; }
+.pf-ch-num { font: 700 4.2rem/0.9 var(--serif); color: var(--sea-soft); letter-spacing: -0.02em; }
+.pf-chapter .pf-meta { color: var(--seaweed); margin-bottom: 6px; }
+.pf-chapter .pf-title { font-weight: 700; font-size: clamp(1.7rem, 3.4vw, 2.3rem); margin-bottom: 8px; }
+.pf-ch-rule { height: 3px; width: 72px; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--seaweed)); margin: 10px 0 10px; }
+.pf-context { font-size: 0.9rem; color: var(--mid); }
+.pf-chapter .pf-team { font-size: 0.88rem; margin-bottom: 0; }
+.pf-role { font-size: 0.9rem; color: var(--black); margin-top: 4px; }
+.pf-role b { color: var(--seaweed); font-weight: 600; }
+
+.pf-chapter .pf-overview { font-size: 1.04rem; line-height: 1.75; color: #2B3138; max-width: none; margin-bottom: 16px; }
+.pf-chapter .pf-docs { margin: 0 0 26px; }
+.pf-chapter .pf-docs .btn { border-radius: 999px; padding: 5px 14px; }
+
+.pf-chapter .pf-metrics { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.pf-chapter .pf-metric { background: var(--tile); border: none; border-radius: 12px; padding: 16px 18px 14px; position: relative; overflow: hidden; }
+.pf-chapter .pf-metric::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--accent), var(--seaweed)); }
+.pf-chapter .pf-metric-value { font: 700 2rem/1.05 var(--serif); color: var(--accent); }
+.pf-chapter .pf-metric-label { font-size: 0.82rem; color: #4B5563; margin-top: 6px; }
+
+.pf-chapter .pf-figure img { border: none; border-radius: 8px; background: #F7FAFB; }
+.pf-chapter .pf-figures.lead .pf-figure { background: #F7FAFB; border-radius: 12px; padding: 10px; }
+.pf-chapter .pf-figures:not(.lead) .pf-figure { background: #F7FAFB; border-radius: 12px; padding: 8px; }
+.pf-chapter .pf-figure figcaption { padding: 2px 4px 0; }
+
+.pf-chapter .pf-subhead { font: 700 1.25rem var(--serif); letter-spacing: 0; text-transform: none; color: var(--black); margin: 8px 0 14px; display: flex; align-items: center; gap: 10px; }
+.pf-chapter .pf-subhead::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.pf-chapter .pf-results { list-style: none; margin: 0 0 32px; counter-reset: res; display: grid; gap: 10px; }
+.pf-chapter .pf-results li { counter-increment: res; position: relative; padding: 12px 16px 12px 52px; background: #FAFBFC; border: 1px solid #EEF0F2; border-radius: 10px; font-size: 0.97rem; line-height: 1.6; color: #2B3138; margin: 0; }
+.pf-chapter .pf-results li::before { content: counter(res); position: absolute; left: 14px; top: 12px; width: 24px; height: 24px; border-radius: 50%; background: var(--seaweed); color: #fff; font: 700 0.8rem/24px var(--sans); text-align: center; }
+
+/* ── CURRENT RESEARCH ── */
+.pf-now .pf-ch-num { font-size: 3.2rem; }
+.pf-now .pf-context { font-size: 0.95rem; line-height: 1.6; max-width: 640px; }
+.pf-areas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 6px 0 34px; }
+.pf-area { background: var(--tile); border-radius: 12px; padding: 18px 20px 16px; }
+.pf-area svg { width: 30px; height: 30px; color: var(--accent); margin-bottom: 8px; }
+.pf-area h3 { font: 700 1.12rem var(--serif); margin-bottom: 6px; }
+.pf-area p { font-size: 0.93rem; line-height: 1.6; color: #374151; }
+.pf-now .prep-list { margin-bottom: 8px; }
+.pf-now .prep-item .pub-title { font-size: 1rem; }
+
+@media (max-width: 680px) {
+  .pfc-scene, .pfc-legend, .pf-ch-thumb { display: none; }
+  .pfc-contents-mobile { display: block; }
+  .pf-ch-head.has-thumb { grid-template-columns: 1fr; }
+  .pf-areas { grid-template-columns: 1fr; }
+  .pf-chapter .pf-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .pfc { padding: 96px 20px 24px; }
+  .pfc-collage { grid-template-columns: repeat(2, 1fr); }
+  .pf-chapter { padding: 56px 20px; }
+  .pf-ch-head { grid-template-columns: 1fr; gap: 4px; }
+  .pf-ch-num { font-size: 2.6rem; }
+  .pfc-contents a { grid-template-columns: 34px 1fr; }
+  .pfc-cm { display: none; }
+}
+
+/* ── PRINT / PDF ── */
+@page { size: Letter; margin: 0.55in 0.6in 0.7in; }
+
+@media print {
+  .pf-page { font-size: 10.5pt; }
+  .pfc { padding: 0; max-width: none; break-after: page; }
+  .pfc-bar { width: 1.4in; height: 5pt; margin: 0.15in 0 0.35in; }
+  .pfc-eyebrow { font-size: 9pt; }
+  .pfc-name { font-size: 40pt; margin-bottom: 6pt; }
+  .pfc-fields { font-size: 12pt; margin-bottom: 10pt; }
+  .pfc-statement { font-size: 11pt; line-height: 1.55; max-width: 6.2in; }
+  .pfc-contact { font-size: 9pt; margin-bottom: 18pt; }
+  .pfc-collage { gap: 8pt; margin: 4pt 0 18pt; }
+  .pfc-fields { font-size: 15pt; }
+  .pfc-affil { font-size: 9pt; margin-bottom: 2pt; }
+  .pfc-scene { margin: 4pt 0 6pt; }
+  .pfc-legend { font-size: 8.5pt; gap: 4pt 18pt; }
+  .pfc-legend i { width: 10pt; height: 10pt; }
+  .pfc-contents-mobile { display: none !important; }
+  .pf-ch-head.has-thumb { grid-template-columns: auto 1fr 2.05in; }
+  .pf-ch-thumb { padding: 5pt 6pt 6pt; border-radius: 8pt; }
+  .pf-thumb-k { font-size: 6.5pt; margin-top: 3pt; }
+  .pf-thumb-t { font-size: 7.5pt; }
+  .pfc-tile { border-radius: 6pt; aspect-ratio: 16 / 9; }
+  .pfc-contents a { padding: 5.5pt 2pt; grid-template-columns: 0.4in 1fr auto; }
+  .pfc-cn, .pfc-ct { font-size: 11pt; }
+  .pfc-cm { font-size: 8.5pt; }
+
+  .pf-chapter { max-width: none; padding: 0; border-top: none; break-before: page; }
+  .pf-ch-head { gap: 14pt; margin-bottom: 10pt; }
+  .pf-ch-num { font-size: 40pt; }
+  .pf-chapter .pf-title { font-size: 19pt; margin-bottom: 4pt; }
+  .pf-ch-rule { margin: 6pt 0; }
+  .pf-context, .pf-chapter .pf-team, .pf-role { font-size: 9pt; }
+  .pf-chapter .pf-overview { font-size: 10.5pt; line-height: 1.55; margin-bottom: 8pt; }
+  .pf-chapter .pf-docs { margin-bottom: 12pt; }
+  .pf-chapter .pf-docs .btn { border: 1px solid var(--accent); padding: 2pt 8pt; font-size: 8.5pt; text-decoration: none; }
+  .pf-chapter .pf-metrics { gap: 8pt; margin-bottom: 14pt; break-inside: avoid; }
+  .pf-chapter .pf-metric { padding: 9pt 10pt 8pt; border-radius: 8pt; }
+  .pf-chapter .pf-metric-value { font-size: 17pt; }
+  .pf-chapter .pf-metric-label { font-size: 8pt; margin-top: 3pt; }
+  .pf-chapter .pf-figures.lead .pf-figure { padding: 6pt; }
+  .pf-chapter .pf-figures:not(.lead) .pf-figure { padding: 5pt; }
+  .pf-chapter .pf-figures:not(.lead) .pf-figure img { max-height: 1.8in; }
+  .pf-chapter .pf-figures:not(.lead) .pf-figure.wide img { max-height: 2.7in; }
+  .pf-chapter .pf-figures { gap: 8pt; }
+  .pf-chapter .pf-text { font-size: 10pt; line-height: 1.45; margin-bottom: 4pt; }
+  .pf-chapter .pf-eq { margin: 1pt 0 6pt; padding: 4pt 8pt; }
+  .pf-chapter .pf-eq img { max-height: 0.55in; }
+  .pf-chapter .pf-subhead { font-size: 12.5pt; margin: 4pt 0 8pt; break-after: avoid; }
+  .pf-chapter .pf-results { gap: 5pt; margin-bottom: 14pt; }
+  .pf-chapter .pf-results li { font-size: 9.8pt; line-height: 1.45; padding: 6pt 9pt 6pt 30pt; border-radius: 6pt; break-inside: avoid; }
+  .pf-now .pf-ch-num { font-size: 30pt; }
+  .pf-now .pf-context { font-size: 9.5pt; }
+  .pf-areas { gap: 9pt; margin-bottom: 18pt; }
+  .pf-area { padding: 11pt 13pt 10pt; border-radius: 8pt; break-inside: avoid; }
+  .pf-area svg { width: 20pt; height: 20pt; margin-bottom: 4pt; }
+  .pf-area h3 { font-size: 12pt; margin-bottom: 3pt; }
+  .pf-area p { font-size: 9.5pt; line-height: 1.45; }
+  .pf-now .prep-item { padding: 7pt 0 7pt 14pt; break-inside: avoid; }
+  .pf-now .prep-item .pub-title { font-size: 10.5pt; }
+  .pf-now .pub-authors, .pf-now .prep-status { font-size: 8.5pt; }
+  .pf-chapter .pf-results li::before { left: 8pt; top: 6pt; width: 15pt; height: 15pt; font-size: 7.5pt; line-height: 15pt; }
+}
