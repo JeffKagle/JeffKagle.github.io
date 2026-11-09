@@ -298,6 +298,12 @@ section + section { border-top: 1px solid var(--border); }
 
 .project-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 16px; }
 
+.viz-grid { display: flex; flex-direction: column; gap: 28px; }
+.viz-card { margin: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.viz-card img { width: 100%; display: block; background: #fff; border-bottom: 1px solid var(--border); }
+.viz-card figcaption { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.viz-card .project-title { margin-bottom: 0; }
+
 .empty-note { font-size: 0.9rem; color: var(--mid); font-style: italic; }
 
 /* ── PUBLICATIONS ── */

@@ -233,6 +233,11 @@
             "wide": true
           },
           {
+            "src": "assets/img/hasel-rotary-actuator/motor-animation.gif",
+            "caption": "Schematic animation (AI-generated, not to scale): the four liquid Peano-HASEL actuators fire in sequence and pull the eccentric hub, turning the shaft; at right, the top actuator's pouches zip, contract, and recover under load.",
+            "wide": true
+          },
+          {
             "src": "assets/img/hasel-rotary-actuator/cad-assembly.jpg",
             "caption": "Full CAD assembly: 3D-printed frame, support struts, and central hub with shaft on two ball bearings.",
             "source": "poster",
@@ -621,6 +626,14 @@
       "authors": "",
       "title": "Airflow testing of particle deposition in locally harvested upper nasal epithelial cells (working title)",
       "status": "In preparation with Nathalie Heuzé-Vourc’h (University of Tours) and additional co-authors; author list to be finalized."
+    }
+  ],
+  "visualizations": [
+    {
+      "title": "Liquid DEA Rotary Motor",
+      "project": "hasel-rotary-actuator",
+      "src": "assets/img/hasel-rotary-actuator/motor-animation.gif",
+      "caption": "Four liquid Peano-HASEL actuators fire in sequence to turn a central shaft. At right, one actuator's pouches zip, shorten, and recover. Schematic animation (AI-generated), not to scale."
     }
   ]
 }

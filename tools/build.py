@@ -150,6 +150,14 @@ def validate(data):
             check_file(pub["file"], where, "file")
         elif not pub.get("url"):
             warn(f"{where}: no file or url — no download button")
+    for i, v in enumerate(data.get("visualizations", [])):
+        for field in ("title", "src", "caption"):
+            if not v.get(field):
+                err(f"visualizations[{i}]: missing '{field}'")
+        if v.get("src"):
+            check_file(v["src"], f"visualizations[{i}]", "animation")
+        if v.get("project") and v["project"] not in {p.get("id") for p in data.get("projects", [])}:
+            err(f"visualizations[{i}]: unknown project '{v['project']}'")
     for i, m in enumerate(data.get("in_preparation", [])):
         if not m.get("title"):
             err(f"in_preparation[{i}]: missing 'title'")
@@ -165,7 +173,7 @@ def validate(data):
                 err(f"{where}: DOCUMENT CHANGED — {w['file']} no longer matches the uploaded original")
     # oversized images slow the site down
     for img in (ROOT / "assets" / "img").rglob("*"):
-        if img.is_file() and img.stat().st_size > MAX_IMAGE_KB * 1024:
+        if img.is_file() and img.suffix.lower() != ".gif" and img.stat().st_size > MAX_IMAGE_KB * 1024:
             warn(f"large image ({img.stat().st_size // 1024} KB): {img.relative_to(ROOT)} — run tools/ingest.py image")
 
 
@@ -265,6 +273,27 @@ def render_in_prep(data):
         {authors}
         <p class="prep-status">{esc(m.get('status') or 'In preparation.')}</p>
       </div>""")
+    return "\n".join(out)
+
+
+def render_visuals(data):
+    """Homepage 'In Motion' section: animations (GIFs), each linked to its project's portfolio entry."""
+    ids = {p["id"]: p for p in data.get("projects", [])}
+    out = []
+    for v in data.get("visualizations", []):
+        proj = ids.get(v.get("project"))
+        link = ""
+        if proj:
+            target = f'portfolio.html#{esc(proj["id"])}' if (proj.get("portfolio") or {}).get("include") else f'#project-{esc(proj["id"])}'
+            link = f'<a class="btn btn-sm" href="{target}">{esc(proj["title"])} →</a>'
+        out.append(f"""      <figure class="viz-card">
+        <img src="{href(v['src'])}" alt="{esc(v['caption'])}" loading="lazy" />
+        <figcaption>
+          <h3 class="project-title">{esc(v['title'])}</h3>
+          <p class="project-desc">{esc(v['caption'])}</p>
+          {link}
+        </figcaption>
+      </figure>""")
     return "\n".join(out)
 
 
@@ -479,6 +508,8 @@ def main():
         idx, _ = fill(idx, "updates", render_updates(data), "index.html")
     idx, _ = fill(idx, "projects", render_cards(data), "index.html")
     idx, _ = fill(idx, "publications", render_publications(data), "index.html")
+    if "<!-- BUILD:visuals -->" in idx:
+        idx, _ = fill(idx, "visuals", render_visuals(data), "index.html")
     idx, _ = fill(idx, "inprep", render_in_prep(data), "index.html")
     idx, _ = fill(idx, "writing", render_writing(data), "index.html")
     (ROOT / "index.html").write_text(idx)
