@@ -126,6 +126,11 @@
             "src": "assets/img/cuttlefish-hybrid-model/cover.jpg",
             "caption": "AI-generated illustration (not from the paper): dorsal view of a cuttlefish with the fin wave travelling anterior to posterior, the resulting thrust and drag, and the body axes used in the model. Schematic, not to scale.",
             "wide": true
+          },
+          {
+            "src": "assets/img/cuttlefish-hybrid-model/fin-animation.gif",
+            "caption": "Schematic animation (AI-generated, illustrative values): a wave travels head to tail along each fin; the robotic-fin model supplies thrust and drag and the biological model supplies the vertical and lateral fin forces, balanced as F<sub>T</sub> − F<sub>D</sub> = m·du/dt.",
+            "wide": true
           }
         ],
         "sections": [
@@ -359,6 +364,11 @@
             "wide": true
           },
           {
+            "src": "assets/img/snap-through-actuator/snap-animation.gif",
+            "caption": "Schematic animation (AI-generated): the solenoid drives the beam end 3.36 mm; the stiff step blocks downward bending until the 2.9 N threshold, the beam snaps up into an arch that rises 4.3 mm to press the fingertip, then resets passively when the current stops.",
+            "wide": true
+          },
+          {
             "src": "assets/img/snap-through-actuator/custom-solenoid-force.png",
             "caption": "Force–displacement profile of the custom solenoid; the shaded band is the usable stroke above the required force.",
             "source_page": 6
@@ -431,6 +441,11 @@
             "src": "assets/img/gait-coach/match-times.png",
             "caption": "Time to match the 120 SPM cue by feedback type, with Welch's t-test p-values against the audio control (diamonds are means).",
             "source_page": 4,
+            "wide": true
+          },
+          {
+            "src": "assets/img/gait-coach/gait-animation.gif",
+            "caption": "Schematic animation (AI-generated, not to scale): a vibration cue on the forearm sets a 120 steps-per-minute target, and an IMU on the foot detects heel strikes to measure how quickly the walker matches the pace.",
             "wide": true
           },
           {
@@ -643,6 +658,24 @@
       "project": "hasel-rotary-actuator",
       "src": "assets/img/hasel-rotary-actuator/motor-animation.gif",
       "caption": "Four liquid Peano-HASEL actuators fire in sequence to turn a central shaft. At right, one actuator's pouches zip, shorten, and recover. Schematic animation (AI-generated), not to scale."
+    },
+    {
+      "title": "Snap-Through Haptic Actuator",
+      "project": "snap-through-actuator",
+      "src": "assets/img/snap-through-actuator/snap-animation.gif",
+      "caption": "A custom solenoid pushes the end of an S-shaped bistable beam. A stiff step stops it bending down, so it stores energy until 2.9 N, then snaps up into an arch that presses the skin and springs back when the power is off. Schematic animation (AI-generated)."
+    },
+    {
+      "title": "The Gait Coach",
+      "project": "gait-coach",
+      "src": "assets/img/gait-coach/gait-animation.gif",
+      "caption": "A cue on the forearm sets the walking pace and a foot-mounted IMU checks whether the steps match it. Schematic animation (AI-generated), not to scale."
+    },
+    {
+      "title": "Cuttlefish Fin Propulsion",
+      "project": "cuttlefish-hybrid-model",
+      "src": "assets/img/cuttlefish-hybrid-model/fin-animation.gif",
+      "caption": "A wave travels down each fin, pushing water backward and the cuttlefish forward. The hybrid model balances fin thrust against drag. Schematic animation (AI-generated) with illustrative values."
     }
   ],
   "current_research": {
