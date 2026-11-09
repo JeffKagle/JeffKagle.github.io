@@ -479,7 +479,9 @@ LOAD_ALL_IMAGES = """async () => {
 
 def pdf_inputs_hash():
     h = hashlib.sha256()
-    h.update((ROOT / "portfolio.html").read_bytes())
+    # ignore the PDF link's own version stamp, or every rebuild would look like a new input
+    h.update(re.sub(r"assets/portfolio\.pdf\?v=[0-9a-f]+", "assets/portfolio.pdf",
+                    (ROOT / "portfolio.html").read_text()).encode())
     h.update((ROOT / "assets" / "style.css").read_bytes())
     if (ROOT / "assets" / "portfolio.css").exists():
         h.update((ROOT / "assets" / "portfolio.css").read_bytes())
@@ -614,6 +616,14 @@ def main():
         print("4/5 headless Chrome checks (desktop + phone)")
         print("5/5 portfolio PDF")
         browser_checks(make_pdf=True, force_pdf=args.force_pdf)
+        # version the PDF link so browsers and the CDN never serve an old cached portfolio
+        if PDF.exists():
+            ver = sha256(PDF)[:10]
+            for pg in PAGES:
+                t = (ROOT / pg).read_text()
+                t2 = re.sub(r'href="assets/portfolio\.pdf(\?v=[0-9a-f]+)?"', f'href="assets/portfolio.pdf?v={ver}"', t)
+                if t2 != t:
+                    (ROOT / pg).write_text(t2)
 
     for w in warnings:
         print(f"  warning: {w}")
