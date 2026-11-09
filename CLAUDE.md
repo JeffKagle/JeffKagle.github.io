@@ -37,8 +37,11 @@ Never hand-edit inside BUILD regions — edit the data file and rebuild.
    - Prefer the owner's own figures. Don't feature figures reproduced from other people's papers;
      if a document has none, ask — an AI illustration is OK only if labeled as AI-generated on the
      image and in the caption.
-4. Non-technical essays/writing samples go in `writing` (title, venue, date, summary, file, sha256):
+4. Animations (GIFs) go in `visualizations` (title, project id, src, caption) for the homepage
+   "In Motion" section, and as a `wide` figure in that project's portfolio entry if wanted.
+   Label AI-made animations "AI-generated" on the image and in the caption.
+5. Non-technical essays/writing samples go in `writing` (title, venue, date, summary, file, sha256):
    homepage "Writing" section only — never the portfolio or publications. Ingest with `ingest.py doc`.
-5. If it is a paper/report, also add it to `publications` (owner's name gets bolded automatically).
-6. `python3 tools/build.py`, check screenshots, commit, push. Tell the owner what was added and
+6. If it is a paper/report, also add it to `publications` (owner's name gets bolded automatically).
+7. `python3 tools/build.py`, check screenshots, commit, push. Tell the owner what was added and
    anything in the summary they should verify.
