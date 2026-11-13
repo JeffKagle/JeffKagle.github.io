@@ -12,6 +12,9 @@ Never hand-edit inside BUILD regions — edit the data file and rebuild.
   only. Each document's sha256 is recorded in site.json and `build.py` fails if a file changes.
 - Always run `python3 tools/build.py` before pushing and only push when it prints OK. Look at the
   screenshots in /tmp/site-check/ for anything that looks wrong.
+- Visitor stats: GoatCounter (site code in `site.json` → `analytics.goatcounter`, dashboard at
+  galavant.goatcounter.com). `build.py` injects the tag before `</body>` and gives every PDF link a
+  `data-goatcounter-click="download-<name>"` event; don't hand-add either. Checks stub the counter out.
 - Push straight to `main` (owner approved). Commit message: what was added/changed.
 
 ## Adding a project (owner sends a document + a short description)

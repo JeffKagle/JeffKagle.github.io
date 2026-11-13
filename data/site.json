@@ -702,5 +702,8 @@
         "text": "Low-cost benchtop tools that bring breathing-like airflow to cell culture, for studying how inhaled particles reach the airway."
       }
     ]
+  },
+  "analytics": {
+    "goatcounter": "galavant"
   }
 }

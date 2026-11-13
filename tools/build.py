@@ -447,6 +447,43 @@ def static_links():
                 err(f"{pg}: link to missing anchor: {val}")
 
 
+
+# ───────────────────────── analytics (GoatCounter) ─────────────────────────
+
+DOWNLOAD_NAMES = {}   # stored file path -> friendly event name (main project documents use the project id)
+
+
+def tag_downloads(s):
+    """Give every PDF link a GoatCounter click event, e.g. data-goatcounter-click="download-portfolio"."""
+    def one(m):
+        a = m.group(0)
+        a = re.sub(r'\s+data-goatcounter-click="download-[^"]*"', "", a)
+        path = unquote(urlparse(html.unescape(m.group(1))).path).lstrip("/")
+        stem = DOWNLOAD_NAMES.get(path) or Path(path).stem
+        slug = re.sub(r"[^a-z0-9]+", "-", stem.lower()).strip("-")
+        return a[:-1] + f' data-goatcounter-click="download-{slug}">'
+    return re.sub(r'<a\s[^>]*?href="([^"]+\.pdf(?:\?[^"]*)?)"[^>]*>', one, s)
+
+
+def apply_analytics(data):
+    code = str((data.get("analytics") or {}).get("goatcounter", "")).strip()
+    if code and not re.fullmatch(r"[a-z0-9-]+", code):
+        err(f"analytics.goatcounter is not a valid GoatCounter site code: {code!r}")
+        return
+    tag = ("<!-- analytics: GoatCounter, no cookies. Open jeffreykagle.com/#toggle-goatcounter once per browser to stop counting your own visits -->\n"
+           f'<script data-goatcounter="https://{code}.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>\n')
+    for pg in PAGES:
+        t = (ROOT / pg).read_text()
+        t2 = re.sub(r"<!-- analytics:[^\n]*-->\n<script data-goatcounter=[^\n]*</script>\n", "", t)
+        t2 = tag_downloads(t2)
+        if code:
+            t2 = t2.replace("</body>", tag + "</body>", 1)
+        if t2 != t:
+            (ROOT / pg).write_text(t2)
+        if code and f"https://{code}.goatcounter.com/count" not in t2:
+            err(f"{pg}: GoatCounter tag missing")
+
+
 # ───────────────────────── browser checks + PDF ─────────────────────────
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
@@ -503,9 +540,15 @@ def browser_checks(make_pdf, force_pdf):
     try:
         with sync_playwright() as p:
             browser = launch(p)
+            _new_page = browser.new_page
+            def new_page(**kw):          # stub out GoatCounter so checks never hit the network or count a visit
+                pg_ = _new_page(**kw)
+                pg_.route(re.compile(r"https?://([^/]*\.)?(zgo\.at|goatcounter\.com)/"),
+                          lambda r: r.fulfill(status=200, content_type="application/javascript", body=""))
+                return pg_
             for pg in PAGES:
                 for name, vw in (("desktop", {"width": 1280, "height": 800}), ("phone", {"width": 390, "height": 844})):
-                    page = browser.new_page(viewport=vw)
+                    page = new_page(viewport=vw)
                     problems = []
                     page.on("console", lambda m: problems.append(f"console {m.type}: {m.text}") if m.type == "error" else None)
                     page.on("pageerror", lambda e: problems.append(f"script error: {e}"))
@@ -530,7 +573,7 @@ def browser_checks(make_pdf, force_pdf):
                 digest = pdf_inputs_hash()
                 stale = force_pdf or not PDF.exists() or not PDF_HASH.exists() or PDF_HASH.read_text().strip() != digest
                 if stale:
-                    page = browser.new_page()
+                    page = new_page()
                     page.goto(f"{base}/portfolio.html", wait_until="networkidle")
                     page.evaluate(LOAD_ALL_IMAGES)
                     page.emulate_media(media="print")
@@ -571,25 +614,29 @@ def main():
         print(f"ERROR: data/site.json is not valid JSON: {e}")
         sys.exit(1)
 
+    for p_ in data.get("projects", []):
+        if p_.get("document", {}).get("file"):
+            DOWNLOAD_NAMES[p_["document"]["file"]] = p_["id"]
+
     print("1/5 validating data/site.json")
     validate(data)
 
     print("2/5 rendering pages")
     idx = (ROOT / "index.html").read_text()
     if "<!-- BUILD:updates -->" in idx:
-        idx, _ = fill(idx, "updates", render_updates(data), "index.html")
-    idx, _ = fill(idx, "projects", render_cards(data), "index.html")
-    idx, _ = fill(idx, "publications", render_publications(data), "index.html")
+        idx, _ = fill(idx, "updates", tag_downloads(render_updates(data)), "index.html")
+    idx, _ = fill(idx, "projects", tag_downloads(render_cards(data)), "index.html")
+    idx, _ = fill(idx, "publications", tag_downloads(render_publications(data)), "index.html")
     if "<!-- BUILD:visuals -->" in idx:
-        idx, _ = fill(idx, "visuals", render_visuals(data), "index.html")
-    idx, _ = fill(idx, "inprep", render_in_prep(data), "index.html")
-    idx, _ = fill(idx, "writing", render_writing(data), "index.html")
+        idx, _ = fill(idx, "visuals", tag_downloads(render_visuals(data)), "index.html")
+    idx, _ = fill(idx, "inprep", tag_downloads(render_in_prep(data)), "index.html")
+    idx, _ = fill(idx, "writing", tag_downloads(render_writing(data)), "index.html")
     (ROOT / "index.html").write_text(idx)
 
     pf = (ROOT / "portfolio.html").read_text()
-    pf, _ = fill(pf, "cover", render_portfolio_cover(data), "portfolio.html")
-    pf, _ = fill(pf, "current", render_portfolio_current(data), "portfolio.html")
-    pf, old_body = fill(pf, "portfolio", render_portfolio(data), "portfolio.html")
+    pf, _ = fill(pf, "cover", tag_downloads(render_portfolio_cover(data)), "portfolio.html")
+    pf, _ = fill(pf, "current", tag_downloads(render_portfolio_current(data)), "portfolio.html")
+    pf, old_body = fill(pf, "portfolio", tag_downloads(render_portfolio(data)), "portfolio.html")
     new_body = re.search(r"<!-- BUILD:portfolio -->\n(.*?)<!-- /BUILD:portfolio -->", pf, re.S)
     changed = old_body is None or new_body is None or old_body != new_body.group(1)
     if changed or "pf-updated" not in pf:
@@ -606,6 +653,8 @@ def main():
                 t2 = re.sub(rf'href="assets/{css}\.css(\?v=[0-9a-f]+)?"', f'href="assets/{css}.css?v={ver}"', t2)
         if t2 != t:
             (ROOT / pg).write_text(t2)
+
+    apply_analytics(data)
 
     print("3/5 checking local links")
     static_links()
